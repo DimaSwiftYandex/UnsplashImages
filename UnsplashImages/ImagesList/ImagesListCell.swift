@@ -9,7 +9,22 @@ import UIKit
 
 final class ImagesListCell: UITableViewCell {
     
+    //MARK: - Static Properties
     static let reuseIdentifier = "ImagesListCell"
+    
+    //MARK: - Private Properties
+    private lazy var dateLabelBackground: UIView = {
+        let view = UIView()
+        view.layer.insertSublayer(gradientLayer, at: 0)
+        return view
+    }()
+    
+    private lazy var gradientLayer: CAGradientLayer = {
+        let gradient = CAGradientLayer()
+        gradient.colors = [UIColor.clear.cgColor, UIColor.black.cgColor]
+        gradient.locations = [0.0, 1.0]
+        return gradient
+    }()
     
     private lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -38,15 +53,25 @@ final class ImagesListCell: UITableViewCell {
         return button
     }()
     
+    // MARK: - Initializers
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.backgroundColor = .clear
-        setupViews(subViews: unsplashImage, dateLabel, likeButton)
+        
+        setupViews(subViews: unsplashImage, dateLabel, likeButton, dateLabelBackground)
+        dateLabelBackground.addSubview(dateLabel)
+        
         setupConstraints()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    //MARK: - Public functions
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        gradientLayer.frame = dateLabelBackground.bounds
     }
     
     func configCell(with imageName: String, index: Int) {
@@ -59,6 +84,7 @@ final class ImagesListCell: UITableViewCell {
         setImageForLikeButton(index: index)
     }
     
+    //MARK: - Public functions
     private func setImageForLikeButton(index: Int) {
         let likeButtonTapped = "Active"
         let likeButtonUntapped = "No Active"
@@ -70,6 +96,8 @@ final class ImagesListCell: UITableViewCell {
         likeButton.setImage(UIImage(named: chosenImageForLikeButton), for: .normal)
     }
     
+    
+    //MARK: - Setup views and constraints
     private func setupViews(subViews: UIView...) {
         subViews.forEach { subView in
             contentView.addSubview(subView)
@@ -100,6 +128,22 @@ final class ImagesListCell: UITableViewCell {
             dateLabel.bottomAnchor.constraint(equalTo: unsplashImage.bottomAnchor, constant: -8),
             dateLabel.widthAnchor.constraint(equalToConstant: 152),
             dateLabel.heightAnchor.constraint(equalToConstant: 18)
+        ])
+        
+        dateLabelBackground.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            dateLabelBackground.leadingAnchor.constraint(equalTo: unsplashImage.leadingAnchor, constant: 8),
+            dateLabelBackground.bottomAnchor.constraint(equalTo: unsplashImage.bottomAnchor, constant: -8),
+            dateLabelBackground.widthAnchor.constraint(equalToConstant: 152),
+            dateLabelBackground.heightAnchor.constraint(equalToConstant: 18)
+        ])
+        
+        dateLabel.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            dateLabel.leadingAnchor.constraint(equalTo: dateLabelBackground.leadingAnchor),
+            dateLabel.trailingAnchor.constraint(equalTo: dateLabelBackground.trailingAnchor),
+            dateLabel.topAnchor.constraint(equalTo: dateLabelBackground.topAnchor),
+            dateLabel.bottomAnchor.constraint(equalTo: dateLabelBackground.bottomAnchor)
         ])
     }
 }

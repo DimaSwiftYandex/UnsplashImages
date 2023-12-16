@@ -7,9 +7,10 @@
 
 import UIKit
 
-class ImagesListViewController: UIViewController {
+final class ImagesListViewController: UIViewController {
     
-    private let photosName: [String] = Array(0..<20).map{ "\($0)" } 
+    //MARK: - Private Properties
+    private let photosName: [String] = Array(0..<20).map{ "\($0)" }
 
     private lazy var tableView: UITableView = {
         var tableView = UITableView()
@@ -22,6 +23,7 @@ class ImagesListViewController: UIViewController {
         return tableView
     }()
 
+    //MARK: - View Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .ypBlack
@@ -77,6 +79,7 @@ extension ImagesListViewController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: ImagesListCell.reuseIdentifier, for: indexPath) as? ImagesListCell else { return UITableViewCell()}
         let imageName = photosName[indexPath.row]
         cell.configCell(with: imageName, index: indexPath.row)
+        cell.selectionStyle = .none
         return cell
     }
 }
