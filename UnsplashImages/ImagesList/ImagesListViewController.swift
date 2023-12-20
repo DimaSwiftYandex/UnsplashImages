@@ -29,6 +29,7 @@ final class ImagesListViewController: UIViewController {
         view.backgroundColor = .ypBlack
         setupViews()
         setupConstraints()
+        
     }
 }
 
@@ -66,6 +67,10 @@ extension ImagesListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+
+        let secondScreen = ProfileViewController()
+        secondScreen.modalPresentationStyle = .fullScreen
+        present(secondScreen, animated: true)
     }
 }
 
