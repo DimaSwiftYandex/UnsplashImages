@@ -18,6 +18,7 @@
 		04C54ECB2B27918F005743DB /* ImagesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C54ECA2B27918F005743DB /* ImagesListViewController.swift */; };
 		04C54ED02B279191005743DB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04C54ECF2B279191005743DB /* Assets.xcassets */; };
 		04C54EDB2B28599F005743DB /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 04C54EDA2B28599F005743DB /* .gitignore */; };
+		04D40F892B346BD000765C49 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D40F882B346BD000765C49 /* MainTabBarController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +35,7 @@
 		04C54ECF2B279191005743DB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		04C54ED42B279192005743DB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		04C54EDA2B28599F005743DB /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		04D40F882B346BD000765C49 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,6 +122,7 @@
 		04C54EC52B27918F005743DB /* UnsplashImages */ = {
 			isa = PBXGroup;
 			children = (
+				04D40F872B346B7100765C49 /* TabBarController */,
 				044FCA3F2B2B937900387FA2 /* ImagesList */,
 				044FCA4B2B30D4FE00387FA2 /* ProfileViewController */,
 				044FCA402B2CE25400387FA2 /* LaunchScreen */,
@@ -128,6 +131,14 @@
 				044FCA422B2CE27D00387FA2 /* Others */,
 			);
 			path = UnsplashImages;
+			sourceTree = "<group>";
+		};
+		04D40F872B346B7100765C49 /* TabBarController */ = {
+			isa = PBXGroup;
+			children = (
+				04D40F882B346BD000765C49 /* MainTabBarController.swift */,
+			);
+			path = TabBarController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -202,6 +213,7 @@
 			files = (
 				044FCA522B31F15D00387FA2 /* ProfilePhoto.swift in Sources */,
 				044FCA4D2B30E3AE00387FA2 /* ProfileViewController.swift in Sources */,
+				04D40F892B346BD000765C49 /* MainTabBarController.swift in Sources */,
 				04C54ECB2B27918F005743DB /* ImagesListViewController.swift in Sources */,
 				044FCA502B31DF0B00387FA2 /* DefaultLabel.swift in Sources */,
 				04C54EC72B27918F005743DB /* AppDelegate.swift in Sources */,
