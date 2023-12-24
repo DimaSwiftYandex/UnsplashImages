@@ -9,19 +9,24 @@ import UIKit
 
 class LaunchViewController: UIViewController {
 
+    //MARK: - Private Properties
     private var launchScreenImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "Vector")
         return imageView
     }()
     
+    //MARK: - View Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .ypBlack
         setupView()
         setupConctraints()
     }
-    
+}
+
+//MARK: - Layout
+extension LaunchViewController {
     private func setupView() {
         view.addSubview(launchScreenImageView)
     }

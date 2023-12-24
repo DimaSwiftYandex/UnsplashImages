@@ -8,27 +8,35 @@
 import UIKit
 
 class MainTabBarController: UITabBarController {
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setupTabBar()
-        
-    }
     
-    private func setupTabBar() {
-        let imageListVC = ImagesListViewController()
-        imageListVC.tabBarItem = .init(
+    let imageListVC: ImagesListViewController = {
+        let vc = ImagesListViewController()
+        vc.tabBarItem = .init(
             title: nil,
             image: UIImage(named: "noActiveTabbarBox"),
             selectedImage: UIImage(named: "activeTabbarBox")
         )
-        
-        let profileVC = ProfileViewController()
-        profileVC.tabBarItem = .init(
+        return vc
+    }()
+    
+    let profileVC: ProfileViewController = {
+        let vc = ProfileViewController()
+        vc.tabBarItem = .init(
             title: nil,
             image: UIImage(named: "noActiveTabbarProfile"),
             selectedImage: UIImage(named: "activeTabbarProfile")
         )
+        return vc
+    }()
+    
+    //MARK: - View Lifecycle
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupTabBar()
+    }
+    
+    //MARK: - Private Functions
+    private func setupTabBar() {
         
         let appearance = UITabBarAppearance()
         appearance.backgroundColor = .ypBlack
@@ -41,27 +49,3 @@ class MainTabBarController: UITabBarController {
         viewControllers = [imageListVC, profileVC]
     }
 }
-
-//    private func setupTabBar() {
-//        let imageListVC = ImagesListViewController()
-//        let imageListNavVC = UINavigationController(rootViewController: imageListVC)
-//        imageListNavVC.tabBarItem = .init(
-//            title: nil,
-//            image: UIImage(named: "noActiveTabbarBox"),
-//            selectedImage: UIImage(named: "activeTabbarBox")
-//        )
-//
-//        let profileVC = ProfileViewController()
-//        let profileNavVC = UINavigationController(rootViewController: profileVC)
-//        profileNavVC.tabBarItem = .init(
-//            title: nil,
-//            image: UIImage(named: "noActiveTabbarProfile"),
-//            selectedImage: UIImage(named: "activeTabbarProfile")
-//        )
-//
-//        let appearance = UITabBarAppearance()
-//        appearance.backgroundColor = .ypBlack
-//
-//        tabBar.standardAppearance = appearance
-//        viewControllers = (imageListNavVC, profileNavVC)
-//    }

@@ -97,7 +97,7 @@ final class ImagesListCell: UITableViewCell {
     }
     
     
-    //MARK: - Setup views and constraints
+    //MARK: - Layout
     private func setupViews(subViews: UIView...) {
         subViews.forEach { subView in
             contentView.addSubview(subView)

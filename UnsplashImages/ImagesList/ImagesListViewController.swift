@@ -29,11 +29,19 @@ final class ImagesListViewController: UIViewController {
         view.backgroundColor = .ypBlack
         setupViews()
         setupConstraints()
-        
+        setupNavigationBar()
+    }
+    
+    //MARK: - Private Functions
+    private func setupNavigationBar() {
+        let navBarAppearance = UINavigationBarAppearance()
+        navBarAppearance.backgroundColor = .ypBlack
+        navigationController?.navigationBar.standardAppearance = navBarAppearance
+        navigationController?.navigationBar.tintColor = .ypWhite
     }
 }
 
-//MARK: - Setup views and constraints
+//MARK: - Layout
 extension ImagesListViewController {
     private func setupViews() {
         view.addSubview(tableView)
@@ -67,10 +75,8 @@ extension ImagesListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-
-        let secondScreen = ProfileViewController()
-        secondScreen.modalPresentationStyle = .fullScreen
-        present(secondScreen, animated: true)
+        let singleImageName = photosName[indexPath.row]
+        showSingleImageScreen(singleImageName: singleImageName)
     }
 }
 
@@ -86,5 +92,15 @@ extension ImagesListViewController: UITableViewDataSource {
         cell.configCell(with: imageName, index: indexPath.row)
         cell.selectionStyle = .none
         return cell
+    }
+}
+
+//MARK: - Navigation
+extension ImagesListViewController {
+    private func showSingleImageScreen(singleImageName: String) {
+        let singleImage = SingleImageViewController()
+        singleImage.singleImageName = singleImageName
+        singleImage.modalPresentationStyle = .fullScreen
+        present(singleImage, animated: true)
     }
 }

@@ -1,16 +1,16 @@
 //
-//  LogoutButton.swift
+//  SingleImage.swift
 //  UnsplashImages
 //
-//  Created by Dmitry Dmitry on 19.12.2023.
+//  Created by Dmitry Dmitry on 22.12.2023.
 //
 
 import UIKit
 
-class LogoutButton: UIButton {
+class SingleImage: UIImageView {
 
     init() {
-        super.init(frame: .zero)
+        super.init(image: .none)
         commonInit()
     }
     
@@ -19,6 +19,6 @@ class LogoutButton: UIButton {
     }
     
     private func commonInit() {
-        self.setImage(UIImage(named: "logoutButton"), for: .normal)
+        self.contentMode = .scaleAspectFit
     }
 }

@@ -11,7 +11,7 @@ final class ProfileViewController: UIViewController {
     
     //MARK: - Private Properties
     private let profilePhoto = ProfilePhoto()
-    private let logoutButton = LogoutButton()
+    private let logoutButton = DefaultButton(style: .logoutButtonStyle)
     private let profileNameLabel = DefaultLabel(style: .profileNameLabelStyle)
     private let userNameLabel = DefaultLabel(style: .userNameLabelStyle)
     private let descriptionLabel = DefaultLabel(style: .descriptionLabelStyle)
@@ -97,6 +97,5 @@ extension ProfileViewController {
             labelsVerticalStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             labelsVerticalStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16)
         ])
-
     }
 }

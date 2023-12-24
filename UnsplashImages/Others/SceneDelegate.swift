@@ -19,7 +19,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.rootViewController = LaunchViewController()
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-//            self.window?.rootViewController = ImagesListViewController()
             let mainTabBarController = MainTabBarController()
             self.window?.rootViewController = mainTabBarController
         }
