@@ -23,6 +23,7 @@ class SingleImageViewController: UIViewController {
     //MARK: - Private Properties
     private let singleImage = SingleImage()
     private let backwardButton = DefaultButton(style: .backwardButtonStyle)
+    private let sharingButton = DefaultButton(style: .sharingButtonStyle)
     
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -37,10 +38,11 @@ class SingleImageViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .ypBlack
         setupScrollView()
-        setupViews(subViews: scrollView, backwardButton)
+        setupViews(subViews: scrollView, backwardButton, sharingButton)
         setupConstraints()
         showImage()
         backwardButtonAction()
+        sharingButtonAction()
     }
     
     //MARK: - Private Functions
@@ -60,8 +62,27 @@ class SingleImageViewController: UIViewController {
         )
     }
     
+    private func sharingButtonAction() {
+        sharingButton.addTarget(
+            self,
+            action: #selector(didTapShareButton),
+            for: .touchUpInside
+        )
+    }
+    
     @objc private func backwardButtonTapped() {
         dismiss(animated: true)
+    }
+    
+    @objc private func didTapShareButton() {
+        guard let image = singleImage.image else { return }
+
+        let activityViewController = UIActivityViewController(
+            activityItems: [image],
+            applicationActivities: nil
+        )
+        
+        self.present(activityViewController, animated: true)
     }
     
     private func rescaleAndCenterImageInScrollView(image: UIImage) {
@@ -109,9 +130,7 @@ extension SingleImageViewController {
             singleImage.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             singleImage.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             singleImage.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            singleImage.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-            singleImage.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
-            singleImage.heightAnchor.constraint(equalTo: scrollView.heightAnchor)
+            singleImage.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor)
         ])
         
         backwardButton.translatesAutoresizingMaskIntoConstraints = false
@@ -120,6 +139,14 @@ extension SingleImageViewController {
             backwardButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 9),
             backwardButton.widthAnchor.constraint(equalToConstant: 24),
             backwardButton.heightAnchor.constraint(equalToConstant: 24)
+        ])
+        
+        sharingButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            sharingButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            sharingButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50),
+            sharingButton.widthAnchor.constraint(equalToConstant: 51),
+            sharingButton.heightAnchor.constraint(equalToConstant: 51)
         ])
     }
 }

@@ -10,6 +10,7 @@ import UIKit
 enum DefaultButtonStyle {
     case logoutButtonStyle
     case backwardButtonStyle
+    case sharingButtonStyle
 }
 
 class DefaultButton: UIButton {
@@ -30,6 +31,8 @@ class DefaultButton: UIButton {
             self.setImage(UIImage(named: "logoutButton"), for: .normal)
         case .backwardButtonStyle:
             self.setImage(UIImage(named: "backwardButton"), for: .normal)
+        case .sharingButtonStyle:
+            self.setImage(UIImage(named: "sharingButton"), for: .normal)
         }
     }
 }
