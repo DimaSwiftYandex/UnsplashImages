@@ -101,7 +101,6 @@ class SingleImageViewController: UIViewController {
         let y = (newContentSize.height - visibleRectSize.height) / 2
         scrollView.setContentOffset(CGPoint(x: x, y: y), animated: false)
     }
-
 }
 
 //MARK: - Layout
@@ -130,7 +129,9 @@ extension SingleImageViewController {
             singleImage.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             singleImage.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             singleImage.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            singleImage.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor)
+            singleImage.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            singleImage.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            singleImage.heightAnchor.constraint(equalTo: scrollView.heightAnchor)
         ])
         
         backwardButton.translatesAutoresizingMaskIntoConstraints = false
@@ -157,3 +158,5 @@ extension SingleImageViewController: UIScrollViewDelegate {
         singleImage
     }
 }
+
+
