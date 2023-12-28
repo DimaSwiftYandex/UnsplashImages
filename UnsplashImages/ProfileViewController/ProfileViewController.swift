@@ -16,13 +16,13 @@ final class ProfileViewController: UIViewController {
     private let userNameLabel = DefaultLabel(style: .userNameLabelStyle)
     private let descriptionLabel = DefaultLabel(style: .descriptionLabelStyle)
     
-    private var flexibleSpace: UIView = {
+    private let flexibleSpace: UIView = {
         let flexibleSpace = UIView()
         flexibleSpace.setContentHuggingPriority(UILayoutPriority(rawValue: 1), for: .horizontal)
         return flexibleSpace
     }()
     
-    private var photoAndButtonHorizontalStack: UIStackView = {
+    private let photoAndButtonHorizontalStack: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.distribution = .fill
@@ -30,12 +30,10 @@ final class ProfileViewController: UIViewController {
         return stackView
     }()
     
-    private var labelsVerticalStack: UIStackView = {
+    private let labelsVerticalStack: UIStackView = {
         let stack = UIStackView()
         stack.axis = .vertical
         stack.spacing = 8
-        stack.distribution = .fill
-        stack.alignment = .fill
         return stack
     }()
 
@@ -54,9 +52,7 @@ final class ProfileViewController: UIViewController {
 //MARK: - Layout
 extension ProfileViewController {
     private func setupViews(subviews: UIView...) {
-        subviews.forEach { subview in
-            view.addSubview(subview)
-        }
+        subviews.forEach { view.addSubview($0)}
     }
     
     private func setupHorizontalStackSubViews(subviews: UIView...) {

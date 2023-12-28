@@ -21,7 +21,7 @@ final class ImagesListCell: UITableViewCell {
     
     private lazy var gradientLayer: CAGradientLayer = {
         let gradient = CAGradientLayer()
-        gradient.colors = [UIColor.clear.cgColor, UIColor.black.cgColor]
+        gradient.colors = [UIColor.clear.cgColor, UIColor.ypBlack.withAlphaComponent(0.2).cgColor]
         gradient.locations = [0.0, 1.0]
         return gradient
     }()
@@ -132,10 +132,10 @@ final class ImagesListCell: UITableViewCell {
         
         dateLabelBackground.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            dateLabelBackground.leadingAnchor.constraint(equalTo: unsplashImage.leadingAnchor, constant: 8),
-            dateLabelBackground.bottomAnchor.constraint(equalTo: unsplashImage.bottomAnchor, constant: -8),
-            dateLabelBackground.widthAnchor.constraint(equalToConstant: 152),
-            dateLabelBackground.heightAnchor.constraint(equalToConstant: 18)
+            dateLabelBackground.leadingAnchor.constraint(equalTo: unsplashImage.leadingAnchor),
+            dateLabelBackground.trailingAnchor.constraint(equalTo: unsplashImage.trailingAnchor),
+            dateLabelBackground.bottomAnchor.constraint(equalTo: unsplashImage.bottomAnchor),
+            dateLabelBackground.heightAnchor.constraint(equalToConstant: 30)
         ])
         
         dateLabel.translatesAutoresizingMaskIntoConstraints = false

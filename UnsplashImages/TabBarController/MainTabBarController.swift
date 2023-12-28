@@ -9,7 +9,7 @@ import UIKit
 
 class MainTabBarController: UITabBarController {
     
-    let imageListVC: ImagesListViewController = {
+    private let imageListVC: ImagesListViewController = {
         let vc = ImagesListViewController()
         vc.tabBarItem = .init(
             title: nil,
@@ -19,7 +19,7 @@ class MainTabBarController: UITabBarController {
         return vc
     }()
     
-    let profileVC: ProfileViewController = {
+    private let profileVC: ProfileViewController = {
         let vc = ProfileViewController()
         vc.tabBarItem = .init(
             title: nil,
