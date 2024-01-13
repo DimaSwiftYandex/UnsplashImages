@@ -7,14 +7,42 @@
 
 import UIKit
 
-class DefaultButton: UIButton {
+enum DefaultButtonStyle {
+    case logoutButtonStyle
+    case backwardButtonStyle
+    case sharingButtonStyle
+    case firstLoginButtonStyle
+    case backButtonStyle
+}
 
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
+final class DefaultButton: UIButton {
+    
+    init(style: DefaultButtonStyle) {
+        super.init(frame: .zero)
+        commonInit(style: style)
     }
-    */
-
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func commonInit(style: DefaultButtonStyle) {
+        switch style {
+            
+        case .logoutButtonStyle:
+            self.setImage(UIImage(named: "logoutButton"), for: .normal)
+        case .backwardButtonStyle:
+            self.setImage(UIImage(named: "backwardButton"), for: .normal)
+        case .sharingButtonStyle:
+            self.setImage(UIImage(named: "sharingButton"), for: .normal)
+        case .firstLoginButtonStyle:
+            self.setTitle("Login", for: .normal)
+            self.setTitleColor(.ypBlack, for: .normal)
+            self.titleLabel?.font = UIFont.boldSystemFont(ofSize: 17)
+            self.backgroundColor = .ypWhite
+            self.layer.cornerRadius = 16
+        case .backButtonStyle:
+            self.setImage(UIImage(named: "backButton"), for: .normal)
+        }
+    }
 }
