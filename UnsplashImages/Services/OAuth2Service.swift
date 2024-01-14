@@ -19,6 +19,7 @@ final class OAuth2Service {
             "code": code,
             "grant_type": "authorization_code"
         ]
+        print("code ->", code)
         request.httpBody = parameters
             .map { "\($0.key)=\($0.value)" }
             .joined(separator: "&")
