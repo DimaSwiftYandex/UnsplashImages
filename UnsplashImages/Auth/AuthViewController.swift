@@ -38,30 +38,9 @@ final class AuthViewController: UIViewController {
         )
     }
     
-//    private func handleSuccessfulLogin(withToken token: String) {
-//        OAuth2TokenStorage.token = token
-//        delegate?.authViewController(self, didAuthenticateWithCode: token)
-//    }
+
     
-    private func handleSuccessfulLogin(withCode code: String) {
-        let oauthService = OAuth2Service()
-        oauthService.fetchAuthToken(code: code) { [weak self] result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let token):
-                    print("token ->", token)
-                    OAuth2TokenStorage.token = token
-                    
-                    print("storage token ->", OAuth2TokenStorage.token)
-                    if let self = self {
-                        self.delegate?.authViewController(self, didAuthenticateWithCode: token)
-                    }
-                case .failure(let error):
-                    self?.showErrorAlert(message: "An error occurred during authentication: \(error.localizedDescription)")
-                }
-            }
-        }
-    }
+    
     
     private func showErrorAlert(message: String) {
         let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
@@ -83,8 +62,8 @@ final class AuthViewController: UIViewController {
 //MARK: - WebViewViewControllerDelegate
 extension AuthViewController: WebViewViewControllerDelegate {
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
-//        handleSuccessfulLogin(withToken: code)
-        handleSuccessfulLogin(withCode: code)
+
+        delegate?.authViewController(self, didAuthenticateWithCode: code)
     }
 
     func webViewViewControllerDidCancel(_ vc: WebViewViewController) {

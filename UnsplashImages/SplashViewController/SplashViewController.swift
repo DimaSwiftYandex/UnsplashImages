@@ -11,6 +11,7 @@ final class SplashViewController: UIViewController {
 
     //MARK: - Private properties
     private var launchViewController: LaunchViewController?
+    private let oauth2Service = OAuth2Service()
     
     //MARK: - Lifecycle
     override func viewDidLoad() {
@@ -71,6 +72,21 @@ final class SplashViewController: UIViewController {
 //MARK: - AuthViewControllerDelegate
 extension SplashViewController: AuthViewControllerDelegate {
     func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String) {
-        switchToTabBarController()
+        dismiss(animated: true) { [weak self] in
+            guard let self = self else { return }
+            self.fetchOAuthToken(code)
+        }
+    }
+
+    private func fetchOAuthToken(_ code: String) {
+        oauth2Service.fetchAuthToken(code: code) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success:
+                self.switchToTabBarController()
+            case .failure (let error):
+                print(error.localizedDescription)
+            }
+        }
     }
 }
