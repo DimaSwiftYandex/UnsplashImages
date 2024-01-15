@@ -38,17 +38,11 @@ final class AuthViewController: UIViewController {
         )
     }
     
-
-    
-    
-    
     private func showErrorAlert(message: String) {
         let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Ok", style: .default))
         self.present(alert, animated: true)
     }
-
-    
 
     //MARK: - Event Handler (Actions)
     @objc private func firstLoginButtonTapped() {
@@ -62,7 +56,6 @@ final class AuthViewController: UIViewController {
 //MARK: - WebViewViewControllerDelegate
 extension AuthViewController: WebViewViewControllerDelegate {
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
-
         delegate?.authViewController(self, didAuthenticateWithCode: code)
     }
 

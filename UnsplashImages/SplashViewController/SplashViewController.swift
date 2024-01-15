@@ -82,7 +82,9 @@ extension SplashViewController: AuthViewControllerDelegate {
         oauth2Service.fetchAuthToken(code: code) { [weak self] result in
             guard let self = self else { return }
             switch result {
-            case .success:
+            case .success (let token):
+                OAuth2TokenStorage.token = token
+                print("storage token ->", OAuth2TokenStorage.token)
                 self.switchToTabBarController()
             case .failure (let error):
                 print(error.localizedDescription)
