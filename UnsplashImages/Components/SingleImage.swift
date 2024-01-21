@@ -7,14 +7,19 @@
 
 import UIKit
 
-class SingleImage: UIImageView {
+final class SingleImage: UIImageView {
 
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
+    init() {
+        super.init(image: .none)
+        commonInit()
     }
-    */
-
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func commonInit() {
+        self.contentMode = .scaleAspectFit
+    }
 }
+

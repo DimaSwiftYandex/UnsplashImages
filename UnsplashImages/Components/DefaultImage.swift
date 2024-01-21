@@ -7,14 +7,34 @@
 
 import UIKit
 
-class DefaultImage: UIImageView {
-
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
-    }
-    */
-
+enum DefaultImageStyle {
+    case profilePhoto
+    case unsplashImage
 }
+
+final class DefaultImage: UIImageView {
+
+    init(style: DefaultImageStyle) {
+        super.init(image: .none)
+        commonInit(style: style)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func commonInit(style: DefaultImageStyle) {
+        switch style {
+            
+        case .profilePhoto:
+            self.image = UIImage(named: "avatar")
+            self.clipsToBounds = true
+            self.layer.cornerRadius = self.frame.width / 2
+            
+        case .unsplashImage:
+            self.image = UIImage(named: "unsplashLogo")
+            self.clipsToBounds = true
+        }
+    }
+}
+

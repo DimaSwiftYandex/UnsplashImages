@@ -7,23 +7,38 @@
 
 import UIKit
 
-class LaunchViewController: UIViewController {
+final class LaunchViewController: UIViewController {
 
+    //MARK: - Private Properties
+    private var launchScreenImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "Vector")
+        return imageView
+    }()
+    
+    //MARK: - View Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .ypBlack
+        setupView()
+        setupConctraints()
+    }
+}
 
-        // Do any additional setup after loading the view.
+//MARK: - Layout
+extension LaunchViewController {
+    private func setupView() {
+        view.addSubview(launchScreenImageView)
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    private func setupConctraints() {
+        launchScreenImageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            launchScreenImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            launchScreenImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            launchScreenImageView.widthAnchor.constraint(equalToConstant: 75),
+            launchScreenImageView.heightAnchor.constraint(equalToConstant: 77.68)
+        ])
     }
-    */
-
 }

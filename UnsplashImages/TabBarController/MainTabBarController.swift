@@ -7,23 +7,46 @@
 
 import UIKit
 
-class MainTabBarController: UITabBarController {
-
+final class MainTabBarController: UITabBarController {
+    
+    //MARK: - Private Properties
+    private let imageListVC: ImagesListViewController = {
+        let vc = ImagesListViewController()
+        vc.tabBarItem = .init(
+            title: nil,
+            image: UIImage(named: "noActiveTabbarBox"),
+            selectedImage: UIImage(named: "activeTabbarBox")
+        )
+        return vc
+    }()
+    
+    private let profileVC: ProfileViewController = {
+        let vc = ProfileViewController()
+        vc.tabBarItem = .init(
+            title: nil,
+            image: UIImage(named: "noActiveTabbarProfile"),
+            selectedImage: UIImage(named: "activeTabbarProfile")
+        )
+        return vc
+    }()
+    
+    //MARK: - View Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        setupTabBar()
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    //MARK: - Private Functions (Tabbar)
+    private func setupTabBar() {
+        
+        let appearance = UITabBarAppearance()
+        appearance.backgroundColor = .ypBlack
+        appearance.stackedLayoutAppearance.selected.iconColor = .ypWhite
+        
+        tabBar.standardAppearance = appearance
+        if #available(iOS 15.0, *) {
+            tabBar.scrollEdgeAppearance = appearance
+        }
+        viewControllers = [imageListVC, profileVC]
     }
-    */
-
 }
