@@ -37,12 +37,6 @@ final class AuthViewController: UIViewController {
             for: .touchUpInside
         )
     }
-    
-    private func showErrorAlert(message: String) {
-        let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Ok", style: .default))
-        self.present(alert, animated: true)
-    }
 
     //MARK: - Event Handler (Actions)
     @objc private func firstLoginButtonTapped() {
