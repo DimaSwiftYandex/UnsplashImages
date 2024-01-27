@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class APIManager {
+final class APIManagerAuthorize {
     
     func getURL() -> URL? {
         var urlComponents = URLComponents()

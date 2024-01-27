@@ -21,7 +21,7 @@ final class WebViewViewController: UIViewController {
     //MARK: - Private Properties
     private let webView = WKWebView()
     private let backButton = DefaultButton(style: .backButtonStyle)
-    private let api = APIManager()
+    private let api = APIManagerAuthorize()
     private let progressView = ProgressView()
 
     //MARK: - Lifecycle

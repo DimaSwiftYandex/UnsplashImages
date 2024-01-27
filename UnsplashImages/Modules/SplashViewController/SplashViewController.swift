@@ -6,12 +6,14 @@
 //
 
 import UIKit
+import ProgressHUD
 
 final class SplashViewController: UIViewController {
 
     //MARK: - Private properties
     private var launchViewController: LaunchViewController?
     private let oauth2Service = OAuth2Service()
+    private let oauth2TokenStorage = OAuth2TokenStorage()
     
     //MARK: - Lifecycle
     override func viewDidLoad() {
@@ -38,7 +40,7 @@ final class SplashViewController: UIViewController {
     }
     
     private func checkAuthentication() {
-        if OAuth2TokenStorage.token != nil {
+        if oauth2TokenStorage.token != nil {
             switchToTabBarController()
         } else {
             presentAuthViewController()
@@ -72,6 +74,7 @@ final class SplashViewController: UIViewController {
 //MARK: - AuthViewControllerDelegate
 extension SplashViewController: AuthViewControllerDelegate {
     func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String) {
+        ProgressHUD.animate()
         dismiss(animated: true) { [weak self] in
             guard let self = self else { return }
             self.fetchOAuthToken(code)
@@ -84,10 +87,12 @@ extension SplashViewController: AuthViewControllerDelegate {
             switch result {
             case .success (let token):
                 print("token ->", token)
-                OAuth2TokenStorage.token = token
-                print("storage token ->", OAuth2TokenStorage.token)
+                oauth2TokenStorage.token = token
+                print("storage token ->", oauth2TokenStorage.token)
                 self.switchToTabBarController()
+                ProgressHUD.dismiss()
             case .failure (let error):
+                ProgressHUD.dismiss()
                 print(error.localizedDescription)
             }
         }

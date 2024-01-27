@@ -8,32 +8,36 @@
 import Foundation
 
 final class OAuth2Service {
+    
+    private let urlSession = URLSession.shared
+    private let apiToken = APIManagerToken()
+    private var task: URLSessionDataTask?
+    private var lastCode: String?
+
     func fetchAuthToken(code: String, completion: @escaping (Result<String, Error>) -> Void) {
-        let url = URL(string: "https://unsplash.com/oauth/token")!
+        assert(Thread.isMainThread)
+
+        if lastCode == code { return }
+        task?.cancel()
+        lastCode = code
+
+        guard let url = apiToken.getURL(code: code) else { return }
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        let parameters: [String: String] = [
-            "client_id": Constants.accessKey,
-            "client_secret": Constants.secretKey,
-            "redirect_uri": Constants.redirectURI,
-            "code": code,
-            "grant_type": "authorization_code"
-        ]
-        print("code ->", code)
-        request.httpBody = parameters
-            .map { "\($0.key)=\($0.value)" }
-            .joined(separator: "&")
-            .data(using: .utf8)
-        
-        URLSession.shared.dataTask(with: request) { data, response, error in
+
+        task = urlSession.dataTask(with: request) { [weak self] data, response, error in
             DispatchQueue.main.async {
+                guard let self = self else { return }
+                self.task = nil
                 if let error = error {
+                    self.lastCode = nil
                     completion(.failure(error))
                     return
                 }
                 guard let data = data,
                       let response = response as? HTTPURLResponse,
                       200...299 ~= response.statusCode else {
+                    self.lastCode = nil
                     completion(.failure(URLError(.badServerResponse)))
                     return
                 }
@@ -46,6 +50,8 @@ final class OAuth2Service {
                     completion(.failure(error))
                 }
             }
-        }.resume()
+        }
+        task?.resume()
     }
 }
+
