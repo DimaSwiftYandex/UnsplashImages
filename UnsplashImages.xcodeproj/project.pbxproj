@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0413AFFC2B5FD05500BD5474 /* ProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = 0413AFFB2B5FD05500BD5474 /* ProgressHUD */; };
 		0413AFFE2B65581C00BD5474 /* APIManagerToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0413AFFD2B65581C00BD5474 /* APIManagerToken.swift */; };
+		0413B0012B65ABE100BD5474 /* UIBlockingProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0413B0002B65ABE100BD5474 /* UIBlockingProgressHUD.swift */; };
 		04FDD6742B534BF900138DCF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FDD6732B534BF900138DCF /* AppDelegate.swift */; };
 		04FDD6762B534BF900138DCF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FDD6752B534BF900138DCF /* SceneDelegate.swift */; };
 		04FDD67D2B534BFB00138DCF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04FDD67C2B534BFB00138DCF /* Assets.xcassets */; };
@@ -37,6 +38,7 @@
 
 /* Begin PBXFileReference section */
 		0413AFFD2B65581C00BD5474 /* APIManagerToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManagerToken.swift; sourceTree = "<group>"; };
+		0413B0002B65ABE100BD5474 /* UIBlockingProgressHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBlockingProgressHUD.swift; sourceTree = "<group>"; };
 		04FDD6702B534BF900138DCF /* UnsplashImages.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UnsplashImages.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04FDD6732B534BF900138DCF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		04FDD6752B534BF900138DCF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -229,6 +231,7 @@
 		04FDD6B42B5354B700138DCF /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				0413B0002B65ABE100BD5474 /* UIBlockingProgressHUD.swift */,
 				04FDD6B52B5354E500138DCF /* DefaultLabel.swift */,
 				04FDD6B72B53550800138DCF /* DefaultImage.swift */,
 				04FDD6B92B53552A00138DCF /* DefaultButton.swift */,
@@ -333,6 +336,7 @@
 				04FDD6B82B53550800138DCF /* DefaultImage.swift in Sources */,
 				04FDD6742B534BF900138DCF /* AppDelegate.swift in Sources */,
 				04FDD6762B534BF900138DCF /* SceneDelegate.swift in Sources */,
+				0413B0012B65ABE100BD5474 /* UIBlockingProgressHUD.swift in Sources */,
 				04FDD6AA2B5353F300138DCF /* SingleImageViewController.swift in Sources */,
 				04FDD6B62B5354E500138DCF /* DefaultLabel.swift in Sources */,
 				04FDD6BE2B53556C00138DCF /* ProgressView.swift in Sources */,
