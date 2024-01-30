@@ -14,6 +14,8 @@ final class SplashViewController: UIViewController {
     private var launchViewController: LaunchViewController?
     private let oauth2Service = OAuth2Service()
     private let oauth2TokenStorage = OAuth2TokenStorage()
+//    private let profileService = ProfileService()
+    private let profileService = ProfileService.shared
     
     //MARK: - Lifecycle
     override func viewDidLoad() {
@@ -91,8 +93,22 @@ extension SplashViewController: AuthViewControllerDelegate {
                 print("token ->", token)
                 oauth2TokenStorage.token = token
                 print("storage token ->", oauth2TokenStorage.token)
-                self.switchToTabBarController()
+                self.fetchProfile(token: token)
                 UIBlockingProgressHUD.dismiss()
+            case .failure (let error):
+                UIBlockingProgressHUD.dismiss()
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    private func fetchProfile(token: String) {
+        profileService.fetchProfile(token) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success:
+                UIBlockingProgressHUD.dismiss()
+                self.switchToTabBarController()
             case .failure (let error):
                 UIBlockingProgressHUD.dismiss()
                 print(error.localizedDescription)

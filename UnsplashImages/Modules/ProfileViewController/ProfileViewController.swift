@@ -16,6 +16,11 @@ final class ProfileViewController: UIViewController {
     private let userNameLabel = DefaultLabel(style: .userNameLabelStyle)
     private let descriptionLabel = DefaultLabel(style: .descriptionLabelStyle)
     
+    private let profileService = ProfileService.shared
+    
+//    private let profileService = ProfileService()
+    private let tokenStorage = OAuth2TokenStorage()
+    
     private let flexibleSpace: UIView = {
         let flexibleSpace = UIView()
         flexibleSpace.setContentHuggingPriority(UILayoutPriority(rawValue: 1), for: .horizontal)
@@ -40,13 +45,41 @@ final class ProfileViewController: UIViewController {
     //MARK: View Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("ProfileViewController viewDidLoad called")
         view.backgroundColor = .ypBlack
         setupViews(subviews: photoAndButtonHorizontalStack, labelsVerticalStack)
         setupHorizontalStackSubViews(subviews: profilePhoto, flexibleSpace, logoutButton)
         setupVerticalStackSubViews(subviews: profileNameLabel, userNameLabel, descriptionLabel)
         setupConstraints()
+//        loadProfile()
+        updateUI()
     }
-
+    
+    //MARK: - Network
+//    private func loadProfile() {
+//        if let token = tokenStorage.token {
+//            profileService.fetchProfile(token) { [weak self] result in
+//                switch result {
+//                case .success(let profile):
+//                    self?.updateUI(with: profile)
+//                case .failure(let error):
+//                    print("Error fetching profile: \(error)")
+//                }
+//            }
+//        }
+//    }
+    
+    //MARK: - UI Update
+    private func updateUI() {
+        guard let profile = profileService.profile else { return }
+        updateProfileDetails(with: profile)
+    }
+    
+    private func updateProfileDetails(with profile: Profile) {
+        profileNameLabel.text = profile.name
+        userNameLabel.text = profile.loginName
+        descriptionLabel.text = profile.bio
+    }
 }
 
 //MARK: - Layout
