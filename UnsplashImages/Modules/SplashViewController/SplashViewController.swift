@@ -124,10 +124,8 @@ extension SplashViewController: AuthViewControllerDelegate {
             case .success(let profile):
                 self.profileImageService.fetchProfileImageURL(username: profile.username) { result in
                     switch result {
-                        
                     case .success(let profileImageURL):
                         completion()
-                        
                     case .failure(let error):
                         print(error)
                         UIBlockingProgressHUD.dismiss()
