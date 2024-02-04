@@ -11,7 +11,7 @@ final class ProfileService {
     
     static let shared = ProfileService()
     
-    private(set) var profile: Profile?
+    private (set) var profile: Profile?
     private var task: URLSessionDataTask?
     private let urlSession = URLSession.shared
     private let api = APIManagerProfile()

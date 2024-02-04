@@ -17,4 +17,13 @@ final class APIManagerProfile {
         
         return urlComponents.url
     }
+    
+    func getImageURL(username: String) -> URL? {
+        var urlComponents = URLComponents()
+        urlComponents.scheme = "https"
+        urlComponents.host = "api.unsplash.com"
+        urlComponents.path = "/users/\(username)"
+        
+        return urlComponents.url
+    }
 }
