@@ -43,6 +43,7 @@ final class SplashViewController: UIViewController {
         if oauth2TokenStorage.token != nil {
             
             if let token = oauth2TokenStorage.token {
+                print("token ->", token)
                 self.fetchProfile(token: token) {
                     self.switchToTabBarController()
                     UIBlockingProgressHUD.dismiss()
