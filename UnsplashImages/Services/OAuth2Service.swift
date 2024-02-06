@@ -41,7 +41,7 @@ final class OAuth2Service {
     private let apiToken = APIManagerToken()
     private var lastCode: String?
     private var currentTask: URLSessionDataTask?
-
+    
     func fetchAuthToken(code: String, completion: @escaping (Result<String, Error>) -> Void) {
         if lastCode == code { return }
         currentTask?.cancel()
@@ -52,18 +52,22 @@ final class OAuth2Service {
         request.httpMethod = "POST"
         
         currentTask = urlSession.objectTask(for: request) { [weak self] (result: Result<OAuthTokenResponseBody, Error>) in
-            self?.lastCode = nil
-            self?.currentTask = nil
-            
-            switch result {
-            case .success(let tokenResponse):
-                completion(.success(tokenResponse.accessToken))
-            case .failure(let error):
-                completion(.failure(error))
+            DispatchQueue.main.async {
+                self?.lastCode = nil
+                self?.currentTask = nil
+                
+                switch result {
+                case .success(let tokenResponse):
+                    completion(.success(tokenResponse.accessToken))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
             }
         }
         currentTask?.resume()
     }
 }
+
+
 
 
