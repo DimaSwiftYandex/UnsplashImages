@@ -21,6 +21,8 @@ final class ProfileImageService {
     private let api = APIManagerProfile()
     private let token = OAuth2TokenStorage()
     
+    private init() {}
+    
     func fetchProfileImageURL(username: String, _ completion: @escaping (Result<String, Error>) -> Void) {
         
         guard let url = api.getImageURL(username: username) else { return }
@@ -52,10 +54,7 @@ final class ProfileImageService {
                         object: self,
                         userInfo: ["URL": imageURL]
                     )
-                    
                     completion(.success(imageURL))
-                    
-                   
                 }
             } catch {
                 DispatchQueue.main.async {

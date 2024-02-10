@@ -17,7 +17,12 @@ final class ProfileService {
     private let api = APIManagerProfile()
     
     func fetchProfile(_ token: String, completion: @escaping (Result<Profile, Error>) -> Void) {
-        guard let url = api.getURL() else { return }
+        guard let url = api.getURL() else {
+            DispatchQueue.main.async {
+                completion(.failure(URLError(.badURL)))
+            }
+            return
+        }
         var request = URLRequest(url: url)
         request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         
