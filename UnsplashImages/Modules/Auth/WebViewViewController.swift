@@ -21,8 +21,9 @@ final class WebViewViewController: UIViewController {
     //MARK: - Private Properties
     private let webView = WKWebView()
     private let backButton = DefaultButton(style: .backButtonStyle)
-    private let api = APIManager()
+    private let api = APIManagerAuthorize()
     private let progressView = ProgressView()
+    private var estimatedProgressObservation: NSKeyValueObservation?
 
     //MARK: - Lifecycle
     override func viewDidLoad() {
@@ -32,57 +33,26 @@ final class WebViewViewController: UIViewController {
         setupWebView()
         backButtonAction()
         loadData()
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        webView.addObserver(
-            self,
-            forKeyPath: #keyPath(WKWebView.estimatedProgress),
-            options: .new,
-            context: nil
-        )
-        updateProgress()
+        observeWebViewProgress()
     }
 
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        webView.removeObserver(
-            self,
-            forKeyPath: #keyPath(WKWebView.estimatedProgress),
-            context: nil
-        )
-    }
-    
-    //MARK: - Other Override Functions
-    override func observeValue(
-        forKeyPath keyPath: String?,
-        of object: Any?,
-        change: [NSKeyValueChangeKey : Any]?,
-        context: UnsafeMutableRawPointer?
-    ) {
-        if keyPath == #keyPath(WKWebView.estimatedProgress) {
-            updateProgress()
-        } else {
-            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
+    private func observeWebViewProgress() {
+        estimatedProgressObservation = webView.observe(
+            \.estimatedProgress,
+            options: [.new]
+        ) { [weak self] _, _ in
+            self?.updateProgress()
         }
     }
-
-    //MARK: - Private Functions
+    
     private func updateProgress() {
-        progressView.progress = Float(webView.estimatedProgress)
-        progressView.isHidden = fabs(webView.estimatedProgress - 1.0) <= 0.0001
-    }
+            progressView.progress = Float(webView.estimatedProgress)
+            progressView.isHidden = fabs(webView.estimatedProgress - 1.0) <= 0.0001
+        }
     
     private func setupWebView() {
         webView.backgroundColor = .ypWhite
         webView.navigationDelegate = self
-        webView.addObserver(
-            self,
-            forKeyPath: #keyPath(WKWebView.estimatedProgress),
-            options: .new,
-            context: nil
-        )
     }
     
     private func backButtonAction() {

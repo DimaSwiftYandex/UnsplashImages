@@ -7,45 +7,67 @@
 
 import Foundation
 
+//final class OAuth2Service {
+//    
+//    private let urlSession = URLSession.shared
+//    private let apiToken = APIManagerToken()
+//    private var lastCode: String?
+//
+//    func fetchAuthToken(code: String, completion: @escaping (Result<String, Error>) -> Void) {
+//        if lastCode == code { return }
+//        lastCode = code
+//        
+//        guard let url = apiToken.getURL(code: code) else { return }
+//        var request = URLRequest(url: url)
+//        request.httpMethod = "POST"
+//        
+//        let task = urlSession.objectTask(for: request) { [weak self] (result: Result<OAuthTokenResponseBody, Error>) in
+//            switch result {
+//            case .success(let tokenResponse):
+//                self?.lastCode = nil
+//                completion(.success(tokenResponse.accessToken))
+//            case .failure(let error):
+//                self?.lastCode = nil
+//                completion(.failure(error))
+//            }
+//        }
+//        task.resume()
+//    }
+//}
+
 final class OAuth2Service {
+    
+    private let urlSession = URLSession.shared
+    private let apiToken = APIManagerToken()
+    private var lastCode: String?
+    private var currentTask: URLSessionDataTask?
+    
     func fetchAuthToken(code: String, completion: @escaping (Result<String, Error>) -> Void) {
-        let url = URL(string: "https://unsplash.com/oauth/token")!
+        if lastCode == code { return }
+        currentTask?.cancel()
+        lastCode = code
+        
+        guard let url = apiToken.getURL(code: code) else { return }
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        let parameters: [String: String] = [
-            "client_id": Constants.accessKey,
-            "client_secret": Constants.secretKey,
-            "redirect_uri": Constants.redirectURI,
-            "code": code,
-            "grant_type": "authorization_code"
-        ]
-        print("code ->", code)
-        request.httpBody = parameters
-            .map { "\($0.key)=\($0.value)" }
-            .joined(separator: "&")
-            .data(using: .utf8)
         
-        URLSession.shared.dataTask(with: request) { data, response, error in
+        currentTask = urlSession.objectTask(for: request) { [weak self] (result: Result<OAuthTokenResponseBody, Error>) in
             DispatchQueue.main.async {
-                if let error = error {
-                    completion(.failure(error))
-                    return
-                }
-                guard let data = data,
-                      let response = response as? HTTPURLResponse,
-                      200...299 ~= response.statusCode else {
-                    completion(.failure(URLError(.badServerResponse)))
-                    return
-                }
-                do {
-                    let decoder = JSONDecoder()
-                    decoder.keyDecodingStrategy = .convertFromSnakeCase
-                    let tokenResponse = try decoder.decode(OAuthTokenResponseBody.self, from: data)
+                self?.lastCode = nil
+                self?.currentTask = nil
+                
+                switch result {
+                case .success(let tokenResponse):
                     completion(.success(tokenResponse.accessToken))
-                } catch {
+                case .failure(let error):
                     completion(.failure(error))
                 }
             }
-        }.resume()
+        }
+        currentTask?.resume()
     }
 }
+
+
+
+
