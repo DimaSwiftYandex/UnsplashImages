@@ -13,7 +13,7 @@
 		0413B0032B67B19C00BD5474 /* ProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0413B0022B67B19B00BD5474 /* ProfileService.swift */; };
 		0413B0052B67B22C00BD5474 /* ProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0413B0042B67B22C00BD5474 /* ProfileModel.swift */; };
 		0413B0072B67EF9A00BD5474 /* APIManagerProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0413B0062B67EF9A00BD5474 /* APIManagerProfile.swift */; };
-		0413B0092B6946CB00BD5474 /*  ProfileImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0413B0082B6946CB00BD5474 /*  ProfileImageService.swift */; };
+		0413B0092B6946CB00BD5474 /* ProfileImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0413B0082B6946CB00BD5474 /* ProfileImageService.swift */; };
 		0413B00B2B69471200BD5474 /* UserResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0413B00A2B69471200BD5474 /* UserResult.swift */; };
 		0413B00D2B6D34B700BD5474 /* URLSession+Decodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0413B00C2B6D34B700BD5474 /* URLSession+Decodable.swift */; };
 		0413B00F2B6D525A00BD5474 /* AlertPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0413B00E2B6D525A00BD5474 /* AlertPresenter.swift */; };
@@ -51,7 +51,7 @@
 		0413B0022B67B19B00BD5474 /* ProfileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileService.swift; sourceTree = "<group>"; };
 		0413B0042B67B22C00BD5474 /* ProfileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileModel.swift; sourceTree = "<group>"; };
 		0413B0062B67EF9A00BD5474 /* APIManagerProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManagerProfile.swift; sourceTree = "<group>"; };
-		0413B0082B6946CB00BD5474 /*  ProfileImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = " ProfileImageService.swift"; sourceTree = "<group>"; };
+		0413B0082B6946CB00BD5474 /* ProfileImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageService.swift; sourceTree = "<group>"; };
 		0413B00A2B69471200BD5474 /* UserResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserResult.swift; sourceTree = "<group>"; };
 		0413B00C2B6D34B700BD5474 /* URLSession+Decodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+Decodable.swift"; sourceTree = "<group>"; };
 		0413B00E2B6D525A00BD5474 /* AlertPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertPresenter.swift; sourceTree = "<group>"; };
@@ -188,7 +188,7 @@
 				04FDD6982B53524F00138DCF /* OAuth2Service.swift */,
 				04FDD68F2B53511300138DCF /* OAuth2TokenStorage.swift */,
 				0413B0022B67B19B00BD5474 /* ProfileService.swift */,
-				0413B0082B6946CB00BD5474 /*  ProfileImageService.swift */,
+				0413B0082B6946CB00BD5474 /* ProfileImageService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -356,7 +356,7 @@
 			files = (
 				04FDD6962B5351CE00138DCF /* APIManagerAuthorize.swift in Sources */,
 				0413AFFE2B65581C00BD5474 /* APIManagerToken.swift in Sources */,
-				0413B0092B6946CB00BD5474 /*  ProfileImageService.swift in Sources */,
+				0413B0092B6946CB00BD5474 /* ProfileImageService.swift in Sources */,
 				0413B0072B67EF9A00BD5474 /* APIManagerProfile.swift in Sources */,
 				04FDD6C22B5355E800138DCF /* Constants.swift in Sources */,
 				04FDD6A12B5352FE00138DCF /* UIColor+Extensions.swift in Sources */,

@@ -15,7 +15,7 @@ final class SplashViewController: UIViewController {
     private let oauth2TokenStorage = OAuth2TokenStorage()
     private let profileService = ProfileService.shared
     private let profileImageService = ProfileImageService.shared
-    private let alertPresenter = AlertPresenter()
+//    private let alertPresenter = AlertPresenter()
     override func viewDidLoad() {
         super.viewDidLoad()
         setupLaunchViewController()
@@ -84,7 +84,7 @@ final class SplashViewController: UIViewController {
     
     private func showErrorAlert() {
         let alertModel = AlertModel(title: "Something went wrong", message: "Failed to sign in")
-        alertPresenter.showAlert(from: self, with: alertModel)
+        AlertPresenter.showAlert(from: self, with: alertModel)
     }
 }
 
@@ -145,6 +145,6 @@ extension SplashViewController: AuthViewControllerDelegate {
     
     private func showErrorAlert(with error: Error) {
         let alertModel = AlertModel(title: "Something went wrong", message: error.localizedDescription)
-        alertPresenter.showAlert(from: self, with: alertModel)
+        AlertPresenter.showAlert(from: self, with: alertModel)
     }
 }

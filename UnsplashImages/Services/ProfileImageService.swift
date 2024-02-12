@@ -25,7 +25,12 @@ final class ProfileImageService {
     
     func fetchProfileImageURL(username: String, _ completion: @escaping (Result<String, Error>) -> Void) {
         
-        guard let url = api.getImageURL(username: username) else { return }
+        guard let url = api.getImageURL(username: username) else {
+            DispatchQueue.main.async {
+                completion(.failure(URLError(.badURL)))
+            }
+            return
+        }
         var request = URLRequest(url: url)
         request.addValue("Bearer \(token.token ?? "")", forHTTPHeaderField: "Authorization")
         

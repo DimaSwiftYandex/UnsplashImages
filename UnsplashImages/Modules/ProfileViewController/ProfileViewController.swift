@@ -87,12 +87,14 @@ final class ProfileViewController: UIViewController {
     
     private func updateAvatar() {
         
-        guard let profileImageURL = ProfileImageService.shared.avatarURL, let url = URL(string: profileImageURL) else { return }
+        guard let profileImageURL = ProfileImageService.shared.avatarURL, 
+              let url = URL(string: profileImageURL) else { return }
         
         print("->", url)
         
         let processor = RoundCornerImageProcessor(cornerRadius: profilePhoto.frame.height / 2)
         profilePhoto.kf.indicatorType = .activity
+        
         profilePhoto.kf.setImage(
             with: url,
             placeholder: UIImage(named: "placeholderImage"),
