@@ -53,6 +53,12 @@ final class ImagesListCell: UITableViewCell {
         return button
     }()
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        unsplashImage.kf.cancelDownloadTask()
+        unsplashImage.image = nil
+    }
+    
     // MARK: - Initializers
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -74,9 +80,14 @@ final class ImagesListCell: UITableViewCell {
         gradientLayer.frame = dateLabelBackground.bounds
     }
     
-    func configCell(with imageName: String, index: Int) {
-        guard let image = UIImage(named: imageName) else { return }
-        unsplashImage.image = image
+    func configCell(with photo: Photo, index: Int) {
+        let placeholder = UIImage(named: "stub")
+        unsplashImage.kf.indicatorType = .activity
+        if let url = URL(string: photo.thumbImageURL) {
+            unsplashImage.kf.setImage(with: url, placeholder: placeholder)
+        } else {
+            unsplashImage.image = placeholder
+        }
         
         let currentDate = dateFormatter.string(from: Date())
         dateLabel.text = currentDate

@@ -10,15 +10,8 @@ import UIKit
 final class SingleImageViewController: UIViewController {
     
     //MARK: - Public Properties
-    var singleImageName: String? {
-        didSet {
-            guard let singleImageName = singleImageName,
-                  let image = UIImage(named: singleImageName)
-                  else { return }
-            singleImage.image = image
-            rescaleAndCenterImageInScrollView(image: image)
-        }
-    }
+    var photoUrl: URL?
+    var photo: Photo?
     
     //MARK: - Private Properties
     private let singleImage = SingleImage()
@@ -46,12 +39,30 @@ final class SingleImageViewController: UIViewController {
     }
     
     //MARK: - Private Functions
+//    private func showImage() {
+//        guard let photo = photo, let url = URL(string: photo.largeImageURL) else { return }
+//        singleImage.kf.setImage(with: url, placeholder: UIImage(named: "stub")) { result in
+//            switch result {
+//            case .success(let value):
+//                self.rescaleAndCenterImageInScrollView()
+//            case .failure(let error):
+//                print("Ошибка загрузки изображения: \(error.localizedDescription)")
+//            }
+//        }
+//    }
+    
     private func showImage() {
-        guard let singleImageName = singleImageName,
-              let image = UIImage(named: singleImageName)
-              else { return }
-        singleImage.image = image
-        rescaleAndCenterImageInScrollView(image: image)
+        guard let photo = photo, let url = URL(string: photo.largeImageURL) else { return }
+        UIBlockingProgressHUD.show()
+        singleImage.kf.setImage(with: url) { result in
+            UIBlockingProgressHUD.dismiss()
+            switch result {
+            case .success(let value):
+                self.rescaleAndCenterImageInScrollView()
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
     }
     
     private func backwardButtonAction() {
@@ -70,7 +81,8 @@ final class SingleImageViewController: UIViewController {
         )
     }
     
-    private func rescaleAndCenterImageInScrollView(image: UIImage) {
+    private func rescaleAndCenterImageInScrollView() {
+        guard let image = singleImage.image else { return }
         let minZoomScale = scrollView.minimumZoomScale
         let maxZoomScale = scrollView.maximumZoomScale
         view.layoutIfNeeded()
@@ -86,6 +98,7 @@ final class SingleImageViewController: UIViewController {
         let y = (newContentSize.height - visibleRectSize.height) / 2
         scrollView.setContentOffset(CGPoint(x: x, y: y), animated: false)
     }
+    
     
     //MARK: - Event Handler (Actions)
     @objc private func backwardButtonTapped() {
@@ -128,9 +141,7 @@ extension SingleImageViewController {
             singleImage.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             singleImage.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             singleImage.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            singleImage.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-            singleImage.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
-            singleImage.heightAnchor.constraint(equalTo: scrollView.heightAnchor)
+            singleImage.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor)
         ])
         
         backwardButton.translatesAutoresizingMaskIntoConstraints = false

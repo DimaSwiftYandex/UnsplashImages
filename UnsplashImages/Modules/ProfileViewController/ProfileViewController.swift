@@ -51,14 +51,7 @@ final class ProfileViewController: UIViewController {
         setupHorizontalStackSubViews(subviews: profilePhoto, flexibleSpace, logoutButton)
         setupVerticalStackSubViews(subviews: profileNameLabel, userNameLabel, descriptionLabel)
         setupConstraints()
-        
-        profileImageServiceObserver = NotificationCenter.default.addObserver(
-            forName: ProfileImageService.DidChangeNotification,
-            object: nil,
-            queue: .main
-        ) { [weak self] _ in
-            self?.updateAvatar()
-        }
+        setupObservers()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -69,7 +62,18 @@ final class ProfileViewController: UIViewController {
         }
     }
     
-    // MARK: - UI Update Methods
+    //MARK: - Setup Observers
+    private func setupObservers() {
+        profileImageServiceObserver = NotificationCenter.default.addObserver(
+            forName: ProfileImageService.DidChangeNotification,
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            self?.updateAvatar()
+        }
+    }
+    
+    //MARK: - UI Update Methods
     private func fetchProfileAndUpdateUI() {
         guard let token = tokenStorage.token else { return }
         profileService.fetchProfile(token) { [weak self] result in
