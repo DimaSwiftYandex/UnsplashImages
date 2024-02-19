@@ -28,6 +28,18 @@ struct Photo {
     }
 }
 
+extension Photo {
+    init(from photo: Photo, isLiked newIsLiked: Bool) {
+        self.id = photo.id
+        self.size = photo.size
+        self.createdAt = photo.createdAt
+        self.welcomeDescription = photo.welcomeDescription
+        self.thumbImageURL = photo.thumbImageURL
+        self.largeImageURL = photo.largeImageURL
+        self.isLiked = newIsLiked
+    }
+}
+
 struct PhotoResult: Decodable {
     let id: String
     let createdAt: String

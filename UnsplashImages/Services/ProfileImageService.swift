@@ -56,37 +56,3 @@ final class ProfileImageService {
         task?.resume()
     }
 }
-
-//        task = urlSession.dataTask(with: request) { data, response, error in
-//            if let error = error {
-//                DispatchQueue.main.async {
-//                    completion(.failure(error))
-//                }
-//                return
-//            }
-//            guard let data = data else {
-//                completion(.failure(URLError(.badServerResponse)))
-//                return
-//            }
-//            do {
-//                self.decoder.keyDecodingStrategy = .convertFromSnakeCase
-//                let userResult = try self.decoder.decode(UserResult.self, from: data)
-//                DispatchQueue.main.async {
-//                    let imageURL = userResult.profileImage.small
-//                    self.avatarURL = imageURL
-//                    
-//                    NotificationCenter.default.post(
-//                        name: ProfileImageService.DidChangeNotification,
-//                        object: self,
-//                        userInfo: ["URL": imageURL]
-//                    )
-//                    completion(.success(imageURL))
-//                }
-//            } catch {
-//                DispatchQueue.main.async {
-//                    completion(.failure(error))
-//                }
-//            }
-//        }
-//        task?.resume()
-//    }

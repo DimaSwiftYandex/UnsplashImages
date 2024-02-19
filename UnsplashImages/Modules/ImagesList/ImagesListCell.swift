@@ -7,7 +7,14 @@
 
 import UIKit
 
+protocol ImagesListCellDelegate: AnyObject {
+    func imageListCellDidTapLike(_ cell: ImagesListCell)
+}
+
+
 final class ImagesListCell: UITableViewCell {
+    
+    weak var delegate: ImagesListCellDelegate?
     
     //MARK: - Static Properties
     static let reuseIdentifier = "ImagesListCell"
@@ -68,6 +75,7 @@ final class ImagesListCell: UITableViewCell {
         dateLabelBackground.addSubview(dateLabel)
         
         setupConstraints()
+        setupLikeButtonAction()
     }
     
     required init?(coder: NSCoder) {
@@ -92,19 +100,22 @@ final class ImagesListCell: UITableViewCell {
         let currentDate = dateFormatter.string(from: Date())
         dateLabel.text = currentDate
         
-        setImageForLikeButton(index: index)
+        let buttonImageName = photo.isLiked ? "Active" : "No Active"
+        likeButton.setImage(UIImage(named: buttonImageName), for: .normal)
     }
     
     //MARK: - Private functions
-    private func setImageForLikeButton(index: Int) {
-        let likeButtonTapped = "Active"
-        let likeButtonUntapped = "No Active"
-        
-        let chosenImageForLikeButton = index % 2 == 0
-        ? likeButtonTapped
-        : likeButtonUntapped
-        
-        likeButton.setImage(UIImage(named: chosenImageForLikeButton), for: .normal)
+    private func setupLikeButtonAction() {
+        likeButton.addTarget(
+            self,
+            action: #selector(likeButtonClicked),
+            for: .touchUpInside
+        )
+    }
+    
+    //MARK: - Event handler (Actions)
+    @objc func likeButtonClicked() {
+        delegate?.imageListCellDidTapLike(self)
     }
     
     

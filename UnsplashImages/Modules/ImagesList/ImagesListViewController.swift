@@ -123,6 +123,7 @@ extension ImagesListViewController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: ImagesListCell.reuseIdentifier, for: indexPath) as? ImagesListCell else { return UITableViewCell()}
         let photo = photos[indexPath.row]
         cell.configCell(with: photo, index: indexPath.row)
+        cell.delegate = self
         cell.selectionStyle = .none
         return cell
     }
@@ -138,3 +139,20 @@ extension ImagesListViewController {
     }
 }
 
+//MARK: - Like Action
+extension ImagesListViewController: ImagesListCellDelegate {
+    func imageListCellDidTapLike(_ cell: ImagesListCell) {
+        guard let indexPath = tableView.indexPath(for: cell) else { return }
+        let photo = photos[indexPath.row]
+        
+        imagesListService.changeLike(photoId: photo.id, isLike: !photo.isLiked) { [weak self] result in
+            switch result {
+            case .success():
+                self?.photos[indexPath.row] = Photo(from: photo, isLiked: !photo.isLiked)
+                self?.tableView.reloadRows(at: [indexPath], with: .none)
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+}

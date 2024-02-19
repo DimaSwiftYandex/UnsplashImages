@@ -28,8 +28,8 @@ final class DefaultImage: UIImageView {
             
         case .profilePhoto:
             self.image = UIImage(named: "avatar")
-            self.clipsToBounds = true
             self.layer.cornerRadius = self.frame.width / 2
+            self.clipsToBounds = true
             
         case .unsplashImage:
             self.image = UIImage(named: "unsplashLogo")

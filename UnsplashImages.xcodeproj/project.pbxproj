@@ -20,6 +20,7 @@
 		04E2FA572B7EAC3800996EAB /* ImagesListService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E2FA562B7EAC3800996EAB /* ImagesListService.swift */; };
 		04E2FA592B7FCCCD00996EAB /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E2FA582B7FCCCD00996EAB /* Photo.swift */; };
 		04E2FA5B2B7FFD9C00996EAB /* APIManagerPhotos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E2FA5A2B7FFD9C00996EAB /* APIManagerPhotos.swift */; };
+		04E2FA5D2B82905700996EAB /* APIManagerLikes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E2FA5C2B82905700996EAB /* APIManagerLikes.swift */; };
 		04EC98902B702A5E00898962 /* SwiftKeychainWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = 04EC988F2B702A5E00898962 /* SwiftKeychainWrapper */; };
 		04F4FC0F2B6ECEEA00CEE79D /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 04F4FC0E2B6ECEEA00CEE79D /* Kingfisher */; };
 		04FDD6742B534BF900138DCF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FDD6732B534BF900138DCF /* AppDelegate.swift */; };
@@ -61,6 +62,7 @@
 		04E2FA562B7EAC3800996EAB /* ImagesListService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListService.swift; sourceTree = "<group>"; };
 		04E2FA582B7FCCCD00996EAB /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 		04E2FA5A2B7FFD9C00996EAB /* APIManagerPhotos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManagerPhotos.swift; sourceTree = "<group>"; };
+		04E2FA5C2B82905700996EAB /* APIManagerLikes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManagerLikes.swift; sourceTree = "<group>"; };
 		04FDD6702B534BF900138DCF /* UnsplashImages.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UnsplashImages.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04FDD6732B534BF900138DCF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		04FDD6752B534BF900138DCF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -193,6 +195,7 @@
 				0413AFFD2B65581C00BD5474 /* APIManagerToken.swift */,
 				0413B0062B67EF9A00BD5474 /* APIManagerProfile.swift */,
 				04E2FA5A2B7FFD9C00996EAB /* APIManagerPhotos.swift */,
+				04E2FA5C2B82905700996EAB /* APIManagerLikes.swift */,
 				04FDD6982B53524F00138DCF /* OAuth2Service.swift */,
 				04FDD68F2B53511300138DCF /* OAuth2TokenStorage.swift */,
 				0413B0022B67B19B00BD5474 /* ProfileService.swift */,
@@ -388,6 +391,7 @@
 				04FDD6B62B5354E500138DCF /* DefaultLabel.swift in Sources */,
 				04E2FA572B7EAC3800996EAB /* ImagesListService.swift in Sources */,
 				04FDD6BE2B53556C00138DCF /* ProgressView.swift in Sources */,
+				04E2FA5D2B82905700996EAB /* APIManagerLikes.swift in Sources */,
 				04FDD6A72B5353A300138DCF /* ImagesListViewController.swift in Sources */,
 				04FDD69C2B53529500138DCF /* AuthViewController.swift in Sources */,
 				04FDD68C2B53506500138DCF /* SplashViewController.swift in Sources */,

@@ -19,7 +19,8 @@ final class ImagesListService {
     
     private let urlSession = URLSession.shared
     private let decoder = JSONDecoder()
-    private let api = APIManagerPhotos()
+    private let apiPhotos = APIManagerPhotos()
+    private let apiLikes = APIManagerLikes()
     private let token = OAuth2TokenStorage()
     
     private init() {}
@@ -31,7 +32,7 @@ final class ImagesListService {
         
         let nextPage = (lastLoadedPage ?? 0) + 1
         
-        guard let url = api.getURL(with: nextPage) else {
+        guard let url = apiPhotos.getURL(with: nextPage) else {
             print("Invalid URL")
             isLoading = false
             return
@@ -58,65 +59,29 @@ final class ImagesListService {
         
         task.resume()
     }
-}
     
-//    func fetchPhotosNextPage() {
-//        
-//        guard !isLoading else { return }
-//        isLoading = true
-//        
-//        let nextPage = lastLoadedPage == nil
-//        ? 1
-//        : lastLoadedPage! + 1
-//        
-//        lastLoadedPage = nextPage
-//        
-//        guard let url = api.getURL(with: nextPage) else {
-//            print("Invalid URL")
-//            isLoading = false
-//            return
-//        }
-//        var request = URLRequest(url: url)
-//        request.addValue("Bearer \(token.token ?? "")", forHTTPHeaderField: "Authorization")
-//        
-//        task = urlSession.dataTask(with: request) { data, response, error in
-//            if let error = error {
-//                DispatchQueue.main.async {
-//                    print(error.localizedDescription)
-//                    self.isLoading = false
-//                }
-//                return
-//            }
-//            guard let data = data else {
-//                DispatchQueue.main.async {
-//                    print("Bad Server Response")
-//                    self.isLoading = false
-//                }
-//                return
-//            }
-//            do {
-//                self.decoder.keyDecodingStrategy = .convertFromSnakeCase
-//                let photoResults = try self.decoder.decode([PhotoResult].self, from: data)
-//                let photos = photoResults.map { Photo(from: $0) }
-//                DispatchQueue.main.async {
-//                    self.photos.append(contentsOf: photos)
-//                    self.lastLoadedPage = nextPage
-//                    
-//                    NotificationCenter.default.post(
-//                        name: ImagesListService.DidChangeNotification,
-//                        object: nil
-//                    )
-//                    
-//                    self.isLoading = false
-//                }
-//            } catch {
-//                DispatchQueue.main.async {
-//                    print(error.localizedDescription)
-//                    self.isLoading = false
-//                }
-//            }
-//        }
-//        task?.resume()
-//    }
+    func changeLike(photoId: String, isLike: Bool, _ completion: @escaping (Result<Void, Error>) -> Void) {
+        guard let url = apiLikes.getURL(photoId: photoId) else {
+            completion(.failure(URLError(.badURL)))
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = isLike ? "POST" : "DELETE"
+        request.addValue("Bearer \(token.token ?? "")", forHTTPHeaderField: "Authorization")
+        
+        let task = urlSession.dataTask(with: request) { _, response, error in
+            DispatchQueue.main.async {
+                if let error = error {
+                    completion(.failure(error))
+                } else {
+                    completion(.success(()))
+                }
+            }
+        }
+        task.resume()
+    }
+}
+
 
 

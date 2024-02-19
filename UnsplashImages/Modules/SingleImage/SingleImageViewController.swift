@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import ProgressHUD
 
 final class SingleImageViewController: UIViewController {
     
@@ -39,23 +40,12 @@ final class SingleImageViewController: UIViewController {
     }
     
     //MARK: - Private Functions
-//    private func showImage() {
-//        guard let photo = photo, let url = URL(string: photo.largeImageURL) else { return }
-//        singleImage.kf.setImage(with: url, placeholder: UIImage(named: "stub")) { result in
-//            switch result {
-//            case .success(let value):
-//                self.rescaleAndCenterImageInScrollView()
-//            case .failure(let error):
-//                print("Ошибка загрузки изображения: \(error.localizedDescription)")
-//            }
-//        }
-//    }
-    
     private func showImage() {
         guard let photo = photo, let url = URL(string: photo.largeImageURL) else { return }
         UIBlockingProgressHUD.show()
-        singleImage.kf.setImage(with: url) { result in
+        singleImage.kf.setImage(with: url) { [weak self] result in
             UIBlockingProgressHUD.dismiss()
+            guard let self = self else { return }
             switch result {
             case .success(let value):
                 self.rescaleAndCenterImageInScrollView()
@@ -99,6 +89,26 @@ final class SingleImageViewController: UIViewController {
         scrollView.setContentOffset(CGPoint(x: x, y: y), animated: false)
     }
     
+    private func showError() {
+        let alert = UIAlertController(
+            title: "Something went wrong",
+            message: "Try again?",
+            preferredStyle: .alert
+        )
+        alert.addAction(
+            UIAlertAction(
+                title: "No need",
+                style: .cancel)
+        )
+        alert.addAction(
+            UIAlertAction(
+                title: "Repeat",
+                style: .default,
+                handler: { _ in
+                    self.showImage()
+                }))
+        present(alert, animated: true)
+    }
     
     //MARK: - Event Handler (Actions)
     @objc private func backwardButtonTapped() {
