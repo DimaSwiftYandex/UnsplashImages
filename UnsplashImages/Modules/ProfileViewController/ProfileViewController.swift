@@ -7,6 +7,7 @@
 
 import UIKit
 import Kingfisher
+import WebKit
 
 final class ProfileViewController: UIViewController {
     
@@ -52,6 +53,7 @@ final class ProfileViewController: UIViewController {
         setupVerticalStackSubViews(subviews: profileNameLabel, userNameLabel, descriptionLabel)
         setupConstraints()
         setupObservers()
+        logoutButtonAction()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -61,6 +63,72 @@ final class ProfileViewController: UIViewController {
             self.updateAvatar()
         }
     }
+    
+    //MARK: - Business logic
+    private func logoutButtonAction() {
+        logoutButton.addTarget(
+            self,
+            action: #selector(logout),
+            for: .touchUpInside
+        )
+    }
+    
+    private func performLogout() {
+        clean()
+        tokenStorage.token = nil
+        navigateToSplashVC()
+    }
+    
+    private func clean() {
+        HTTPCookieStorage.shared.removeCookies(since: Date.distantPast)
+        WKWebsiteDataStore.default().fetchDataRecords(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes()) { records in
+            records.forEach { record in
+                WKWebsiteDataStore.default().removeData(ofTypes: record.dataTypes, for: [record], completionHandler: {})
+            }
+        }
+    }
+    
+    private func showLogoutAlert() {
+        let alert = UIAlertController(
+            title: "Logout",
+            message: "Are you sure you want to logout?",
+            preferredStyle: .alert
+        )
+        
+        let logoutAction = UIAlertAction(
+            title: "Yes",
+            style: .destructive
+        ) { [weak self] _ in
+            self?.performLogout()
+        }
+        
+        let cancelAction = UIAlertAction(
+            title: "No",
+            style: .cancel
+        )
+        
+        alert.addAction(logoutAction)
+        alert.addAction(cancelAction)
+        
+        present(alert, animated: true)
+    }
+    
+    private func navigateToSplashVC() {
+        DispatchQueue.main.async {
+            if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+               let sceneDelegate = windowScene.delegate as? SceneDelegate,
+               let window = sceneDelegate.window {
+                let splashViewController = SplashViewController()
+                window.rootViewController = splashViewController
+                window.makeKeyAndVisible()
+            }
+        }
+    }
+    
+    @objc private func logout() {
+        showLogoutAlert()
+    }
+    
     
     //MARK: - Setup Observers
     private func setupObservers() {
