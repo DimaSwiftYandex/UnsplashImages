@@ -16,8 +16,7 @@ struct Photo {
     let largeImageURL: String
     let isLiked: Bool
     
-    init(from photoResult: PhotoResult) {
-        let formatter = ISO8601DateFormatter()
+    init(from photoResult: PhotoResult, formatter: ISO8601DateFormatter) {
         self.id = photoResult.id
         self.size = CGSize(width: photoResult.width, height: photoResult.height)
         self.createdAt = formatter.date(from: photoResult.createdAt)

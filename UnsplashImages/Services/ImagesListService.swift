@@ -41,11 +41,13 @@ final class ImagesListService {
         var request = URLRequest(url: url)
         request.addValue("Bearer \(token.token ?? "")", forHTTPHeaderField: "Authorization")
         
+        let formatter = ISO8601DateFormatter()
+        
         let task = urlSession.objectTask(for: request) { [weak self] (result: Result<[PhotoResult], Error>) in
             guard let self = self else { return }
             switch result {
             case .success(let photoResults):
-                let photos = photoResults.map { Photo(from: $0) }
+                let photos = photoResults.map { Photo(from: $0, formatter: formatter) }
                 DispatchQueue.main.async {
                     self.photos.append(contentsOf: photos)
                     self.lastLoadedPage = nextPage
