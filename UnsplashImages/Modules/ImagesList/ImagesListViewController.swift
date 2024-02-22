@@ -38,7 +38,7 @@ final class ImagesListViewController: UIViewController {
     //MARK: - Setup Observers
     private func setupObservers() {
         NotificationCenter.default.addObserver(
-            forName: ImagesListService.DidChangeNotification,
+            forName: ImagesListService.didChangeNotification,
             object: nil,
             queue: .main
         ) { [weak self] _ in
@@ -92,9 +92,7 @@ extension ImagesListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if indexPath.row + 1 == photos.count {
-            DispatchQueue.global().async { [weak self] in
-                self?.imagesListService.fetchPhotosNextPage()
-            }
+            imagesListService.fetchPhotosNextPage()
         }
     }
     
@@ -135,7 +133,7 @@ extension ImagesListViewController: UITableViewDataSource {
 extension ImagesListViewController {
     private func showSingleImageScreen(photo: Photo) {
         let singleImage = SingleImageViewController()
-        singleImage.photo = photo
+        singleImage.setPhoto(photo)
         singleImage.modalPresentationStyle = .fullScreen
         present(singleImage, animated: true)
     }

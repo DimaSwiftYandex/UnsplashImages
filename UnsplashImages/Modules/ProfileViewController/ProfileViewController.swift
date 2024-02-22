@@ -135,7 +135,7 @@ final class ProfileViewController: UIViewController {
     //MARK: - Setup Observers
     private func setupObservers() {
         profileImageServiceObserver = NotificationCenter.default.addObserver(
-            forName: ProfileImageService.DidChangeNotification,
+            forName: ProfileImageService.didChangeNotification,
             object: nil,
             queue: .main
         ) { [weak self] _ in

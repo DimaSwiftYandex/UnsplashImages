@@ -19,7 +19,7 @@ extension URLSession {
                     return
                 }
                 guard let data = data, let response = response as? HTTPURLResponse,
-                        200..<300 ~= response.statusCode else {
+                      200..<300 ~= response.statusCode else {
                     DispatchQueue.main.async {
                         completion(.failure(URLError(.badServerResponse)))
                     }

@@ -10,7 +10,7 @@ import Foundation
 final class ImagesListService {
     
     static let shared = ImagesListService()
-    static let DidChangeNotification = Notification.Name(rawValue: "ImagesListProviderDidChange")
+    static let didChangeNotification = Notification.Name(rawValue: "ImagesListProviderDidChange")
     
     private (set) var photos: [Photo] = []
     private var lastLoadedPage: Int?
@@ -41,14 +41,15 @@ final class ImagesListService {
         var request = URLRequest(url: url)
         request.addValue("Bearer \(token.token ?? "")", forHTTPHeaderField: "Authorization")
         
-        let task = urlSession.objectTask(for: request) { (result: Result<[PhotoResult], Error>) in
+        let task = urlSession.objectTask(for: request) { [weak self] (result: Result<[PhotoResult], Error>) in
+            guard let self = self else { return }
             switch result {
             case .success(let photoResults):
                 let photos = photoResults.map { Photo(from: $0) }
                 DispatchQueue.main.async {
                     self.photos.append(contentsOf: photos)
                     self.lastLoadedPage = nextPage
-                    NotificationCenter.default.post(name: ImagesListService.DidChangeNotification, object: nil)
+                    NotificationCenter.default.post(name: ImagesListService.didChangeNotification, object: nil)
                     self.isLoading = false
                 }
             case .failure(let error):
