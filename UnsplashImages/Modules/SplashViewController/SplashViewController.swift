@@ -137,7 +137,10 @@ extension SplashViewController: AuthViewControllerDelegate {
     
     //MARK: - Error Handling
     private func showErrorAlert(with error: Error) {
-        let alertModel = AlertModel(title: "Something went wrong", message: error.localizedDescription)
+        let alertModel = AlertModel(
+            title: "Something went wrong",
+            message: error.localizedDescription
+        )
         AlertPresenter.showAlert(from: self, with: alertModel)
     }
 }
