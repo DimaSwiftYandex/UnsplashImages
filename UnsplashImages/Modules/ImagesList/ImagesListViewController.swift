@@ -92,7 +92,9 @@ extension ImagesListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if indexPath.row + 1 == photos.count {
-            imagesListService.fetchPhotosNextPage()
+            DispatchQueue.global().async { [weak self] in
+                self?.imagesListService.fetchPhotosNextPage()
+            }
         }
     }
     
