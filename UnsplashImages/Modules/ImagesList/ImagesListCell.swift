@@ -71,10 +71,7 @@ final class ImagesListCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.backgroundColor = .clear
         
-        setupViews(subViews: unsplashImage, dateLabel, likeButton, dateLabelBackground)
-        dateLabelBackground.addSubview(dateLabel)
-        
-        setupConstraints()
+        setupViewsAndConstraints()
         setupLikeButtonAction()
     }
     
@@ -118,52 +115,35 @@ final class ImagesListCell: UITableViewCell {
         delegate?.imageListCellDidTapLike(self)
     }
     
-    
     //MARK: - Layout
-    private func setupViews(subViews: UIView...) {
-        subViews.forEach { contentView.addSubview($0) }
-    }
-    
-    private func setupConstraints() {
-        unsplashImage.translatesAutoresizingMaskIntoConstraints = false
+    private func setupViewsAndConstraints() {
+        [unsplashImage, likeButton, dateLabelBackground].forEach {
+            $0.translatesAutoresizingMaskIntoConstraints = false
+            contentView.addSubview($0)
+        }
+        dateLabelBackground.addSubview(dateLabel)
+        dateLabel.translatesAutoresizingMaskIntoConstraints = false
+        
         NSLayoutConstraint.activate([
             unsplashImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 4),
             unsplashImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -4),
             unsplashImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            unsplashImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
-        ])
-        
-        likeButton.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
+            unsplashImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            
             likeButton.widthAnchor.constraint(equalToConstant: 44),
             likeButton.heightAnchor.constraint(equalToConstant: 44),
             likeButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            likeButton.topAnchor.constraint(equalTo: contentView.topAnchor)
-        ])
-        
-        dateLabel.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            dateLabel.trailingAnchor.constraint(greaterThanOrEqualTo: unsplashImage.trailingAnchor, constant: -8),
-            dateLabel.leadingAnchor.constraint(equalTo: unsplashImage.leadingAnchor, constant: 8),
-            dateLabel.bottomAnchor.constraint(equalTo: unsplashImage.bottomAnchor, constant: -8),
-            dateLabel.widthAnchor.constraint(equalToConstant: 152),
-            dateLabel.heightAnchor.constraint(equalToConstant: 18)
-        ])
-        
-        dateLabelBackground.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
+            likeButton.topAnchor.constraint(equalTo: contentView.topAnchor),
+            
             dateLabelBackground.leadingAnchor.constraint(equalTo: unsplashImage.leadingAnchor),
             dateLabelBackground.trailingAnchor.constraint(equalTo: unsplashImage.trailingAnchor),
             dateLabelBackground.bottomAnchor.constraint(equalTo: unsplashImage.bottomAnchor),
-            dateLabelBackground.heightAnchor.constraint(equalToConstant: 30)
-        ])
-        
-        dateLabel.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            dateLabel.leadingAnchor.constraint(equalTo: dateLabelBackground.leadingAnchor),
-            dateLabel.trailingAnchor.constraint(equalTo: dateLabelBackground.trailingAnchor),
-            dateLabel.topAnchor.constraint(equalTo: dateLabelBackground.topAnchor),
-            dateLabel.bottomAnchor.constraint(equalTo: dateLabelBackground.bottomAnchor)
+            dateLabelBackground.heightAnchor.constraint(equalToConstant: 30),
+            
+            dateLabel.leadingAnchor.constraint(equalTo: dateLabelBackground.leadingAnchor, constant: 8),
+            dateLabel.topAnchor.constraint(equalTo: dateLabelBackground.topAnchor, constant: 4),
+            dateLabel.bottomAnchor.constraint(equalTo: dateLabelBackground.bottomAnchor, constant: -8),
+            dateLabel.trailingAnchor.constraint(greaterThanOrEqualTo: dateLabelBackground.trailingAnchor, constant: -8)
         ])
     }
 }
