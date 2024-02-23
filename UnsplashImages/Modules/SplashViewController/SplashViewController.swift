@@ -15,7 +15,7 @@ final class SplashViewController: UIViewController {
     private let oauth2TokenStorage = OAuth2TokenStorage()
     private let profileService = ProfileService.shared
     private let profileImageService = ProfileImageService.shared
-    private let alertPresenter = AlertPresenter()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupLaunchViewController()
@@ -37,7 +37,7 @@ final class SplashViewController: UIViewController {
         launchVC.view.frame = view.bounds
         launchViewController = launchVC
     }
-
+    
     private func checkAuthentication() {
         
         if oauth2TokenStorage.token != nil {
@@ -49,25 +49,25 @@ final class SplashViewController: UIViewController {
                     UIBlockingProgressHUD.dismiss()
                 }
             }
-
-           
         } else {
             presentAuthViewController()
             UIBlockingProgressHUD.dismiss()
         }
     }
-
+    
     private func removeLaunchViewController() {
         launchViewController?.willMove(toParent: nil)
         launchViewController?.view.removeFromSuperview()
         launchViewController?.removeFromParent()
         launchViewController = nil
     }
-
+    
     private func switchToTabBarController() {
         removeLaunchViewController()
         let tabBarController = MainTabBarController()
-        guard let window = UIApplication.shared.windows.first else { fatalError("Invalid Configuration") }
+        guard let window = UIApplication.shared.windows.first else {
+            fatalError("Invalid Configuration")
+        }
         window.rootViewController = tabBarController
     }
 
@@ -75,16 +75,11 @@ final class SplashViewController: UIViewController {
         removeLaunchViewController()
         let authViewController = AuthViewController()
         authViewController.delegate = self
-        let navigationController = UINavigationController(rootViewController: authViewController)
+        let navigationController = UINavigationController(
+            rootViewController: authViewController
+        )
         navigationController.modalPresentationStyle = .fullScreen
         present(navigationController, animated: true)
-    }
-    
-    // MARK: - Error Handling
-    
-    private func showErrorAlert() {
-        let alertModel = AlertModel(title: "Something went wrong", message: "Failed to sign in")
-        alertPresenter.showAlert(from: self, with: alertModel)
     }
 }
 
@@ -104,7 +99,6 @@ extension SplashViewController: AuthViewControllerDelegate {
             case .success(let token):
                 print("token ->", token)
                 oauth2TokenStorage.token = token
-                print("storage token ->", oauth2TokenStorage.token)
                 self.fetchProfile(token: token) {
                     UIBlockingProgressHUD.dismiss()
                 }
@@ -125,12 +119,12 @@ extension SplashViewController: AuthViewControllerDelegate {
             case .success(let profile):
                 self.profileImageService.fetchProfileImageURL(username: profile.username) { result in
                     switch result {
-                    case .success(let profileImageURL):
+                    case .success(_):
                         completion()
                     case .failure(let error):
                         print(error)
                         UIBlockingProgressHUD.dismiss()
-                        self.switchToTabBarController()
+                        self.showErrorAlert(with: error)
                     }
                 }
             case .failure(let error):
@@ -141,10 +135,12 @@ extension SplashViewController: AuthViewControllerDelegate {
         }
     }
     
-    // MARK: - Error Handling
-    
+    //MARK: - Error Handling
     private func showErrorAlert(with error: Error) {
-        let alertModel = AlertModel(title: "Something went wrong", message: error.localizedDescription)
-        alertPresenter.showAlert(from: self, with: alertModel)
+        let alertModel = AlertModel(
+            title: "Something went wrong",
+            message: error.localizedDescription
+        )
+        AlertPresenter.showAlert(from: self, with: alertModel)
     }
 }

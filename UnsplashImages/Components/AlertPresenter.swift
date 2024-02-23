@@ -13,7 +13,7 @@ struct AlertModel {
 }
 
 final class AlertPresenter {
-    func showAlert(from viewController: UIViewController, with model: AlertModel) {
+    static func showAlert(from viewController: UIViewController, with model: AlertModel) {
         let alert = UIAlertController(title: model.title, message: model.message, preferredStyle: .alert)
         let action = UIAlertAction(title: "OK", style: .default, handler: nil)
         alert.addAction(action)

@@ -7,7 +7,14 @@
 
 import UIKit
 
+protocol ImagesListCellDelegate: AnyObject {
+    func imageListCellDidTapLike(_ cell: ImagesListCell)
+}
+
+
 final class ImagesListCell: UITableViewCell {
+    
+    weak var delegate: ImagesListCellDelegate?
     
     //MARK: - Static Properties
     static let reuseIdentifier = "ImagesListCell"
@@ -28,8 +35,8 @@ final class ImagesListCell: UITableViewCell {
     
     private lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateStyle = .long
-        formatter.timeStyle = .none
+        formatter.locale = Locale(identifier: "ru_RU")
+        formatter.dateFormat = "d MMMM yyyy"
         return formatter
     }()
     
@@ -53,15 +60,19 @@ final class ImagesListCell: UITableViewCell {
         return button
     }()
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        unsplashImage.kf.cancelDownloadTask()
+        unsplashImage.image = nil
+    }
+    
     // MARK: - Initializers
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.backgroundColor = .clear
         
-        setupViews(subViews: unsplashImage, dateLabel, likeButton, dateLabelBackground)
-        dateLabelBackground.addSubview(dateLabel)
-        
-        setupConstraints()
+        setupViewsAndConstraints()
+        setupLikeButtonAction()
     }
     
     required init?(coder: NSCoder) {
@@ -74,74 +85,65 @@ final class ImagesListCell: UITableViewCell {
         gradientLayer.frame = dateLabelBackground.bounds
     }
     
-    func configCell(with imageName: String, index: Int) {
-        guard let image = UIImage(named: imageName) else { return }
-        unsplashImage.image = image
+    func configCell(with photo: Photo, index: Int) {
+        let placeholder = UIImage(named: "stub")
+        unsplashImage.kf.indicatorType = .activity
+        if let url = URL(string: photo.thumbImageURL) {
+            unsplashImage.kf.setImage(with: url, placeholder: placeholder)
+        } else {
+            unsplashImage.image = placeholder
+        }
         
         let currentDate = dateFormatter.string(from: Date())
         dateLabel.text = currentDate
         
-        setImageForLikeButton(index: index)
+        let buttonImageName = photo.isLiked ? "Active" : "No Active"
+        likeButton.setImage(UIImage(named: buttonImageName), for: .normal)
     }
     
     //MARK: - Private functions
-    private func setImageForLikeButton(index: Int) {
-        let likeButtonTapped = "Active"
-        let likeButtonUntapped = "No Active"
-        
-        let chosenImageForLikeButton = index % 2 == 0
-        ? likeButtonTapped
-        : likeButtonUntapped
-        
-        likeButton.setImage(UIImage(named: chosenImageForLikeButton), for: .normal)
+    private func setupLikeButtonAction() {
+        likeButton.addTarget(
+            self,
+            action: #selector(likeButtonClicked),
+            for: .touchUpInside
+        )
     }
     
+    //MARK: - Event handler (Actions)
+    @objc func likeButtonClicked() {
+        delegate?.imageListCellDidTapLike(self)
+    }
     
     //MARK: - Layout
-    private func setupViews(subViews: UIView...) {
-        subViews.forEach { contentView.addSubview($0) }
-    }
-    
-    private func setupConstraints() {
-        unsplashImage.translatesAutoresizingMaskIntoConstraints = false
+    private func setupViewsAndConstraints() {
+        [unsplashImage, likeButton, dateLabelBackground].forEach {
+            $0.translatesAutoresizingMaskIntoConstraints = false
+            contentView.addSubview($0)
+        }
+        dateLabelBackground.addSubview(dateLabel)
+        dateLabel.translatesAutoresizingMaskIntoConstraints = false
+        
         NSLayoutConstraint.activate([
             unsplashImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 4),
             unsplashImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -4),
             unsplashImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            unsplashImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
-        ])
-        
-        likeButton.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
+            unsplashImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            
             likeButton.widthAnchor.constraint(equalToConstant: 44),
             likeButton.heightAnchor.constraint(equalToConstant: 44),
             likeButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            likeButton.topAnchor.constraint(equalTo: contentView.topAnchor)
-        ])
-        
-        dateLabel.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            dateLabel.trailingAnchor.constraint(greaterThanOrEqualTo: unsplashImage.trailingAnchor, constant: -8),
-            dateLabel.leadingAnchor.constraint(equalTo: unsplashImage.leadingAnchor, constant: 8),
-            dateLabel.bottomAnchor.constraint(equalTo: unsplashImage.bottomAnchor, constant: -8),
-            dateLabel.widthAnchor.constraint(equalToConstant: 152),
-            dateLabel.heightAnchor.constraint(equalToConstant: 18)
-        ])
-        
-        dateLabelBackground.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
+            likeButton.topAnchor.constraint(equalTo: contentView.topAnchor),
+            
             dateLabelBackground.leadingAnchor.constraint(equalTo: unsplashImage.leadingAnchor),
             dateLabelBackground.trailingAnchor.constraint(equalTo: unsplashImage.trailingAnchor),
             dateLabelBackground.bottomAnchor.constraint(equalTo: unsplashImage.bottomAnchor),
-            dateLabelBackground.heightAnchor.constraint(equalToConstant: 30)
-        ])
-        
-        dateLabel.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            dateLabel.leadingAnchor.constraint(equalTo: dateLabelBackground.leadingAnchor),
-            dateLabel.trailingAnchor.constraint(equalTo: dateLabelBackground.trailingAnchor),
-            dateLabel.topAnchor.constraint(equalTo: dateLabelBackground.topAnchor),
-            dateLabel.bottomAnchor.constraint(equalTo: dateLabelBackground.bottomAnchor)
+            dateLabelBackground.heightAnchor.constraint(equalToConstant: 30),
+            
+            dateLabel.leadingAnchor.constraint(equalTo: dateLabelBackground.leadingAnchor, constant: 8),
+            dateLabel.topAnchor.constraint(equalTo: dateLabelBackground.topAnchor, constant: 4),
+            dateLabel.bottomAnchor.constraint(equalTo: dateLabelBackground.bottomAnchor, constant: -8),
+            dateLabel.trailingAnchor.constraint(greaterThanOrEqualTo: dateLabelBackground.trailingAnchor, constant: -8)
         ])
     }
 }
