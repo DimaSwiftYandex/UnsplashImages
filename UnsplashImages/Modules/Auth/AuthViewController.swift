@@ -41,8 +41,14 @@ final class AuthViewController: UIViewController {
     //MARK: - Event Handler (Actions)
     @objc private func firstLoginButtonTapped() {
         let webViewViewController = WebViewViewController()
+        let authHelper = AuthHelper()
+        let webViewPresenter = WebViewPresenter(authHelper: authHelper)
+        
         webViewViewController.modalPresentationStyle = .overFullScreen
         webViewViewController.delegate = self
+        webViewViewController.presenter = webViewPresenter
+        webViewPresenter.view = webViewViewController
+        
         present(webViewViewController, animated: true)
     }
 }

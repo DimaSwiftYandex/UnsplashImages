@@ -41,7 +41,8 @@ final class ImagesListService {
         var request = URLRequest(url: url)
         request.addValue("Bearer \(token.token ?? "")", forHTTPHeaderField: "Authorization")
         
-        let formatter = ISO8601DateFormatter()
+//        let formatter = ISO8601DateFormatter()
+        let formatter = DateFormatter.iso8601Formatter
         
         let task = urlSession.objectTask(for: request) { [weak self] (result: Result<[PhotoResult], Error>) in
             guard let self = self else { return }

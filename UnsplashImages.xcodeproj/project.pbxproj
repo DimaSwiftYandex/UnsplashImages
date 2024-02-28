@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0407C8352B8E8250003162D9 /*  WebViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0407C8342B8E8250003162D9 /*  WebViewPresenter.swift */; };
+		0407C8372B8F747A003162D9 /* ISODateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0407C8362B8F747A003162D9 /* ISODateFormatter.swift */; };
+		0407C8392B8FC440003162D9 /* AuthHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0407C8382B8FC440003162D9 /* AuthHelper.swift */; };
 		0413AFFC2B5FD05500BD5474 /* ProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = 0413AFFB2B5FD05500BD5474 /* ProgressHUD */; };
 		0413AFFE2B65581C00BD5474 /* APIManagerToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0413AFFD2B65581C00BD5474 /* APIManagerToken.swift */; };
 		0413B0012B65ABE100BD5474 /* UIBlockingProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0413B0002B65ABE100BD5474 /* UIBlockingProgressHUD.swift */; };
@@ -49,10 +52,13 @@
 		04FDD6BA2B53552A00138DCF /* DefaultButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FDD6B92B53552A00138DCF /* DefaultButton.swift */; };
 		04FDD6BC2B53554B00138DCF /* SingleImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FDD6BB2B53554B00138DCF /* SingleImage.swift */; };
 		04FDD6BE2B53556C00138DCF /* ProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FDD6BD2B53556C00138DCF /* ProgressView.swift */; };
-		04FDD6C22B5355E800138DCF /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FDD6C12B5355E800138DCF /* Constants.swift */; };
+		04FDD6C22B5355E800138DCF /* AuthConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FDD6C12B5355E800138DCF /* AuthConfiguration.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0407C8342B8E8250003162D9 /*  WebViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = " WebViewPresenter.swift"; sourceTree = "<group>"; };
+		0407C8362B8F747A003162D9 /* ISODateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ISODateFormatter.swift; sourceTree = "<group>"; };
+		0407C8382B8FC440003162D9 /* AuthHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthHelper.swift; sourceTree = "<group>"; };
 		0413AFFD2B65581C00BD5474 /* APIManagerToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManagerToken.swift; sourceTree = "<group>"; };
 		0413B0002B65ABE100BD5474 /* UIBlockingProgressHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBlockingProgressHUD.swift; sourceTree = "<group>"; };
 		0413B0022B67B19B00BD5474 /* ProfileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileService.swift; sourceTree = "<group>"; };
@@ -94,7 +100,7 @@
 		04FDD6B92B53552A00138DCF /* DefaultButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultButton.swift; sourceTree = "<group>"; };
 		04FDD6BB2B53554B00138DCF /* SingleImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleImage.swift; sourceTree = "<group>"; };
 		04FDD6BD2B53556C00138DCF /* ProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressView.swift; sourceTree = "<group>"; };
-		04FDD6C12B5355E800138DCF /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		04FDD6C12B5355E800138DCF /* AuthConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthConfiguration.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -219,6 +225,7 @@
 			children = (
 				04FDD69B2B53529500138DCF /* AuthViewController.swift */,
 				04FDD69D2B5352C300138DCF /* WebViewViewController.swift */,
+				0407C8342B8E8250003162D9 /*  WebViewPresenter.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -228,6 +235,7 @@
 			children = (
 				04FDD6A02B5352FE00138DCF /* UIColor+Extensions.swift */,
 				0413B00C2B6D34B700BD5474 /* URLSession+Decodable.swift */,
+				0407C8362B8F747A003162D9 /* ISODateFormatter.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -290,7 +298,8 @@
 		04FDD6C02B5355D400138DCF /* Constants */ = {
 			isa = PBXGroup;
 			children = (
-				04FDD6C12B5355E800138DCF /* Constants.swift */,
+				04FDD6C12B5355E800138DCF /* AuthConfiguration.swift */,
+				0407C8382B8FC440003162D9 /* AuthHelper.swift */,
 			);
 			path = Constants;
 			sourceTree = "<group>";
@@ -379,7 +388,7 @@
 				0413AFFE2B65581C00BD5474 /* APIManagerToken.swift in Sources */,
 				0413B0092B6946CB00BD5474 /* ProfileImageService.swift in Sources */,
 				0413B0072B67EF9A00BD5474 /* APIManagerProfile.swift in Sources */,
-				04FDD6C22B5355E800138DCF /* Constants.swift in Sources */,
+				04FDD6C22B5355E800138DCF /* AuthConfiguration.swift in Sources */,
 				04FDD6A12B5352FE00138DCF /* UIColor+Extensions.swift in Sources */,
 				04FDD6A42B53534600138DCF /* MainTabBarController.swift in Sources */,
 				04FDD6AD2B53542A00138DCF /* ImagesListCell.swift in Sources */,
@@ -387,6 +396,7 @@
 				04FDD6BC2B53554B00138DCF /* SingleImage.swift in Sources */,
 				0413B00D2B6D34B700BD5474 /* URLSession+Decodable.swift in Sources */,
 				0413B00F2B6D525A00BD5474 /* AlertPresenter.swift in Sources */,
+				0407C8352B8E8250003162D9 /*  WebViewPresenter.swift in Sources */,
 				04FDD6B82B53550800138DCF /* DefaultImage.swift in Sources */,
 				0413B0032B67B19C00BD5474 /* ProfileService.swift in Sources */,
 				0413B00B2B69471200BD5474 /* UserResult.swift in Sources */,
@@ -398,12 +408,14 @@
 				04233DA42B87FD9400192345 /* UrlsResult.swift in Sources */,
 				0413B0052B67B22C00BD5474 /* ProfileModel.swift in Sources */,
 				04FDD6AA2B5353F300138DCF /* SingleImageViewController.swift in Sources */,
+				0407C8392B8FC440003162D9 /* AuthHelper.swift in Sources */,
 				04FDD6B62B5354E500138DCF /* DefaultLabel.swift in Sources */,
 				04E2FA572B7EAC3800996EAB /* ImagesListService.swift in Sources */,
 				04FDD6BE2B53556C00138DCF /* ProgressView.swift in Sources */,
 				04E2FA5D2B82905700996EAB /* APIManagerLikes.swift in Sources */,
 				04FDD6A72B5353A300138DCF /* ImagesListViewController.swift in Sources */,
 				04FDD69C2B53529500138DCF /* AuthViewController.swift in Sources */,
+				0407C8372B8F747A003162D9 /* ISODateFormatter.swift in Sources */,
 				04FDD68C2B53506500138DCF /* SplashViewController.swift in Sources */,
 				04233DA22B87FD6900192345 /* PhotoResult.swift in Sources */,
 				04FDD6932B53515E00138DCF /* OAuthTokenModel.swift in Sources */,
