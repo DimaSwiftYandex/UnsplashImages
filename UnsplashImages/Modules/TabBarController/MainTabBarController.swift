@@ -12,6 +12,10 @@ final class MainTabBarController: UITabBarController {
     //MARK: - Private Properties
     private let imageListVC: ImagesListViewController = {
         let vc = ImagesListViewController()
+        let presenter = ImagesListPresenter()
+        vc.presenter = presenter
+        presenter.imagesListview = vc
+        
         vc.tabBarItem = .init(
             title: nil,
             image: UIImage(named: "noActiveTabbarBox"),
@@ -22,6 +26,12 @@ final class MainTabBarController: UITabBarController {
     
     private let profileVC: ProfileViewController = {
         let vc = ProfileViewController()
+        
+        let presenter = ProfilePresenter()
+        
+        vc.presenter = presenter
+        presenter.profileView = vc
+        
         vc.tabBarItem = .init(
             title: nil,
             image: UIImage(named: "noActiveTabbarProfile"),
@@ -50,3 +60,4 @@ final class MainTabBarController: UITabBarController {
         viewControllers = [imageListVC, profileVC]
     }
 }
+

@@ -7,9 +7,13 @@
 
 import Foundation
 
-final class ImagesListService {
+protocol ImagesListServiceProtocol {
+    var photos: [Photo] { get }
+    func fetchPhotosNextPage()
+}
+
+final class ImagesListService: ImagesListServiceProtocol {
     
-    static let shared = ImagesListService()
     static let didChangeNotification = Notification.Name(rawValue: "ImagesListProviderDidChange")
     
     private (set) var photos: [Photo] = []
@@ -22,8 +26,6 @@ final class ImagesListService {
     private let apiPhotos = APIManagerPhotos()
     private let apiLikes = APIManagerLikes()
     private let token = OAuth2TokenStorage()
-    
-    private init() {}
     
     func fetchPhotosNextPage() {
         
@@ -41,7 +43,6 @@ final class ImagesListService {
         var request = URLRequest(url: url)
         request.addValue("Bearer \(token.token ?? "")", forHTTPHeaderField: "Authorization")
         
-//        let formatter = ISO8601DateFormatter()
         let formatter = DateFormatter.iso8601Formatter
         
         let task = urlSession.objectTask(for: request) { [weak self] (result: Result<[PhotoResult], Error>) in
@@ -52,7 +53,10 @@ final class ImagesListService {
                 DispatchQueue.main.async {
                     self.photos.append(contentsOf: photos)
                     self.lastLoadedPage = nextPage
-                    NotificationCenter.default.post(name: ImagesListService.didChangeNotification, object: nil)
+                    NotificationCenter.default.post(
+                        name: ImagesListService.didChangeNotification,
+                        object: nil
+                    )
                     self.isLoading = false
                 }
             case .failure(let error):
@@ -60,7 +64,6 @@ final class ImagesListService {
                 self.isLoading = false
             }
         }
-        
         task.resume()
     }
     
@@ -86,6 +89,5 @@ final class ImagesListService {
         task.resume()
     }
 }
-
 
 

@@ -11,7 +11,6 @@ protocol ImagesListCellDelegate: AnyObject {
     func imageListCellDidTapLike(_ cell: ImagesListCell)
 }
 
-
 final class ImagesListCell: UITableViewCell {
     
     weak var delegate: ImagesListCellDelegate?
@@ -57,6 +56,9 @@ final class ImagesListCell: UITableViewCell {
     
     private lazy var likeButton: UIButton = {
         let button = UIButton()
+        button.accessibilityIdentifier = "like button off"
+        button.setImage(UIImage(named: "LikeNo"), for: .normal)
+        button.setImage(UIImage(named: "Like"), for: .selected)
         return button
     }()
     
@@ -98,6 +100,13 @@ final class ImagesListCell: UITableViewCell {
         dateLabel.text = currentDate
         
         let buttonImageName = photo.isLiked ? "Active" : "No Active"
+        likeButton.isSelected = photo.isLiked
+        
+        if likeButton.isSelected == true {
+            likeButton.accessibilityIdentifier = "like button on"
+        } else {
+            likeButton.accessibilityIdentifier = "like button off"
+        }
         likeButton.setImage(UIImage(named: buttonImageName), for: .normal)
     }
     

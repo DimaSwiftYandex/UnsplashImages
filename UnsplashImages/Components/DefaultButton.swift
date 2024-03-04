@@ -31,8 +31,10 @@ final class DefaultButton: UIButton {
             
         case .logoutButtonStyle:
             self.setImage(UIImage(named: "logoutButton"), for: .normal)
+            self.accessibilityIdentifier = "logout button"
         case .backwardButtonStyle:
             self.setImage(UIImage(named: "backwardButton"), for: .normal)
+            self.accessibilityIdentifier = "back button red"
         case .sharingButtonStyle:
             self.setImage(UIImage(named: "sharingButton"), for: .normal)
         case .firstLoginButtonStyle:
@@ -41,6 +43,7 @@ final class DefaultButton: UIButton {
             self.titleLabel?.font = UIFont.boldSystemFont(ofSize: 17)
             self.backgroundColor = .ypWhite
             self.layer.cornerRadius = 16
+            self.accessibilityIdentifier = "Authenticate"
         case .backButtonStyle:
             self.setImage(UIImage(named: "backButton"), for: .normal)
         }

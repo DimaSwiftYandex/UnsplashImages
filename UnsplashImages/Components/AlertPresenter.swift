@@ -16,6 +16,7 @@ final class AlertPresenter {
     static func showAlert(from viewController: UIViewController, with model: AlertModel) {
         let alert = UIAlertController(title: model.title, message: model.message, preferredStyle: .alert)
         let action = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alert.view.accessibilityIdentifier = "Results"
         alert.addAction(action)
         viewController.present(alert, animated: true, completion: nil)
     }

@@ -40,12 +40,9 @@ final class WebViewViewController: UIViewController & WebViewViewControllerProto
         setupConstraints()
         setupWebView()
         backButtonAction()
-//        loadData()
-//        observeWebViewProgress()
         
         webView.navigationDelegate = self
         presenter?.viewDidLoad()
-//        updateProgress()
     }
 
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
@@ -55,20 +52,6 @@ final class WebViewViewController: UIViewController & WebViewViewControllerProto
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
         }
     }
-    
-//    private func observeWebViewProgress() {
-//        estimatedProgressObservation = webView.observe(
-//            \.estimatedProgress,
-//            options: [.new]
-//        ) { [weak self] _, _ in
-//            self?.updateProgress()
-//        }
-//    }
-    
-//    private func updateProgress() {
-//            progressView.progress = Float(webView.estimatedProgress)
-//            progressView.isHidden = fabs(webView.estimatedProgress - 1.0) <= 0.0001
-//        }
     
     func setProgressValue(_ newValue: Float) {
         progressView.progress = newValue
@@ -81,6 +64,7 @@ final class WebViewViewController: UIViewController & WebViewViewControllerProto
     private func setupWebView() {
         webView.backgroundColor = .ypWhite
         webView.navigationDelegate = self
+        webView.accessibilityIdentifier = "UnsplashWebView"
     }
     
     private func backButtonAction() {
@@ -94,12 +78,6 @@ final class WebViewViewController: UIViewController & WebViewViewControllerProto
     func load(request: URLRequest) {
         webView.load(request)
     }
-    
-//    private func loadData() {
-//        guard let url = api.getURL() else { return }
-//        let urlRequest = getURLRequest(url: url)
-//        webView.load(urlRequest)
-//    }
     
     private func getURLRequest(url: URL) -> URLRequest {
         let url = URLRequest(url: url)
@@ -166,19 +144,5 @@ extension WebViewViewController: WKNavigationDelegate {
             return presenter?.code(from: url)
         }
         return nil
-    } 
-
-//    private func code(from navigationAction: WKNavigationAction) -> String? {
-//        if
-//            let url = navigationAction.request.url,
-//            let urlComponents = URLComponents(string: url.absoluteString),
-//            urlComponents.path == "/oauth/authorize/native",
-//            let items = urlComponents.queryItems,
-//            let codeItem = items.first(where: { $0.name == "code" })
-//        {
-//            return codeItem.value
-//        } else {
-//            return nil
-//        }
-//    }
+    }
 }
