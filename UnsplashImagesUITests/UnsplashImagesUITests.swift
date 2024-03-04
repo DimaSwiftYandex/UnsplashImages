@@ -41,7 +41,7 @@ final class UnsplashImagesUITests: XCTestCase {
         XCTAssertTrue(passwordTextField.waitForExistence(timeout: 5))
         
         passwordTextField.tap()
-        passwordTextField.typeText("12345678")
+        passwordTextField.typeText("insert yr password")
         //webView.swipeDown()
         
         
@@ -49,7 +49,7 @@ final class UnsplashImagesUITests: XCTestCase {
         XCTAssertTrue(loginTextField.waitForExistence(timeout: 5))
         
         loginTextField.tap()
-        loginTextField.typeText("otlichnik24@yandex.ru")
+        loginTextField.typeText("insert yr email")
         webView.swipeUp()
         webView.buttons["Login"].tap()
         
