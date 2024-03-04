@@ -61,6 +61,15 @@ final class WebViewViewController: UIViewController & WebViewViewControllerProto
         progressView.isHidden = isHidden
     }
     
+    func load(request: URLRequest) {
+        webView.load(request)
+        webView.addObserver(
+            self,
+            forKeyPath: #keyPath(WKWebView.estimatedProgress),
+            options: .new,
+            context: nil)
+    }
+    
     private func setupWebView() {
         webView.backgroundColor = .ypWhite
         webView.navigationDelegate = self
@@ -73,10 +82,6 @@ final class WebViewViewController: UIViewController & WebViewViewControllerProto
             action: #selector(backButtonTapped),
             for: .touchUpInside
         )
-    }
-    
-    func load(request: URLRequest) {
-        webView.load(request)
     }
     
     private func getURLRequest(url: URL) -> URLRequest {
