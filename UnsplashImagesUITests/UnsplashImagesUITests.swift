@@ -90,14 +90,16 @@ final class UnsplashImagesUITests: XCTestCase {
     
     func testProfile() throws {
         
-        sleep(7)
+        sleep(3)
         app.tabBars.buttons.element(boundBy: 1).tap()
         
         XCTAssertTrue(app.staticTexts["Name Lastname"].exists)
         XCTAssertTrue(app.staticTexts["@username"].exists)
         
+//        sleep(2)
         app.buttons["logout button"].tap()
         
+//        sleep(2)
         app.alerts["Bye bye!"].scrollViews.otherElements.buttons["Yes"].tap()
     }
 

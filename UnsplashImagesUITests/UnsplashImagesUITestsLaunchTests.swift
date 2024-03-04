@@ -9,13 +9,12 @@ import XCTest
 
 final class UnsplashImagesUITestsLaunchTests: XCTestCase {
     override func setUpWithError() throws {
-            continueAfterFailure = false
-            try super.setUpWithError()
-            XCUIApplication().launch()
-        }
-
-        override func tearDownWithError() throws {
-            try super.tearDownWithError()
-        }
+        continueAfterFailure = false
+        try super.setUpWithError()
+        XCUIApplication().launch()
+    }
     
+    override func tearDownWithError() throws {
+        try super.tearDownWithError()
+    }
 }
