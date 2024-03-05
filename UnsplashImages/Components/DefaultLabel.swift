@@ -35,9 +35,11 @@ final class DefaultLabel: UILabel {
         case .profileNameLabelStyle:
             self.font = UIFont.boldSystemFont(ofSize: 23)
             self.textColor = .ypWhite
+            self.accessibilityIdentifier = "Name Lastname"
         case .userNameLabelStyle:
             self.font = UIFont.systemFont(ofSize: 13)
             self.textColor = .ypGray
+            self.accessibilityIdentifier = "@username"
         case .descriptionLabelStyle:
             self.font = UIFont.systemFont(ofSize: 13)
             self.textColor = .ypWhite

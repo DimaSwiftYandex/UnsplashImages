@@ -9,7 +9,21 @@ import UIKit
 import Kingfisher
 import WebKit
 
-final class ProfileViewController: UIViewController {
+protocol ProfileViewControllerProtocol: AnyObject {
+    var presenter: ProfilePresenterProtocol? { get set }
+    
+    //Update View
+    func updateProfileDetails(with profile: Profile)
+    func updateAvatar()
+    
+    //Navigation
+    func showLogoutAlert()
+    func navigateToSplashVC()
+}
+
+final class ProfileViewController: UIViewController & ProfileViewControllerProtocol {
+    
+    var presenter: ProfilePresenterProtocol?
     
     //MARK: - Private Properties
     private var profileImageServiceObserver: NSObjectProtocol?
@@ -19,9 +33,8 @@ final class ProfileViewController: UIViewController {
     private let profileNameLabel = DefaultLabel(style: .profileNameLabelStyle)
     private let userNameLabel = DefaultLabel(style: .userNameLabelStyle)
     private let descriptionLabel = DefaultLabel(style: .descriptionLabelStyle)
-    private let profileService = ProfileService.shared
-    private let tokenStorage = OAuth2TokenStorage()
     
+
     private let flexibleSpace: UIView = {
         let flexibleSpace = UIView()
         flexibleSpace.setContentHuggingPriority(UILayoutPriority(rawValue: 1), for: .horizontal)
@@ -55,77 +68,19 @@ final class ProfileViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        fetchProfileAndUpdateUI()
+        
+        presenter?.viewWillAppear()
+        //fetchProfileAndUpdateUI()
         DispatchQueue.main.async {
             self.updateAvatar()
         }
     }
     
-    //MARK: - Business logic
-    private func logoutButtonAction() {
-        logoutButton.addTarget(
-            self,
-            action: #selector(logout),
-            for: .touchUpInside
-        )
-    }
+
     
-    private func performLogout() {
-        clean()
-        tokenStorage.token = nil
-        navigateToSplashVC()
-    }
-    
-    private func clean() {
-        HTTPCookieStorage.shared.removeCookies(since: Date.distantPast)
-        WKWebsiteDataStore.default().fetchDataRecords(
-            ofTypes: WKWebsiteDataStore.allWebsiteDataTypes()
-        ) { records in
-            records.forEach { record in
-                WKWebsiteDataStore.default().removeData(ofTypes: record.dataTypes, for: [record], completionHandler: {})
-            }
-        }
-    }
-    
-    private func showLogoutAlert() {
-        let alert = UIAlertController(
-            title: "Logout",
-            message: "Are you sure you want to logout?",
-            preferredStyle: .alert
-        )
+    @objc private func logoutButtonTapped() {
+        presenter?.logoutButtonTapped()
         
-        let logoutAction = UIAlertAction(
-            title: "Yes",
-            style: .destructive
-        ) { [weak self] _ in
-            self?.performLogout()
-        }
-        
-        let cancelAction = UIAlertAction(
-            title: "No",
-            style: .cancel
-        )
-        
-        alert.addAction(logoutAction)
-        alert.addAction(cancelAction)
-        
-        present(alert, animated: true)
-    }
-    
-    private func navigateToSplashVC() {
-        DispatchQueue.main.async {
-            if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-               let sceneDelegate = windowScene.delegate as? SceneDelegate,
-               let window = sceneDelegate.window {
-                let splashViewController = SplashViewController()
-                window.rootViewController = splashViewController
-                window.makeKeyAndVisible()
-            }
-        }
-    }
-    
-    @objc private func logout() {
-        showLogoutAlert()
     }
     
     
@@ -140,25 +95,72 @@ final class ProfileViewController: UIViewController {
         }
     }
     
-    //MARK: - UI Update Methods
-    private func fetchProfileAndUpdateUI() {
-        guard let token = tokenStorage.token else { return }
-        profileService.fetchProfile(token) { [weak self] result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let profile):
-                    self?.updateProfileDetails(with: profile)
-                case .failure(let error):
-                    print("Error fetching profile: \(error)")
-                }
+    private func logoutButtonAction() {
+        logoutButton.addTarget(
+            self,
+            action: #selector(logoutButtonTapped),
+            for: .touchUpInside
+        )
+    }
+}
+
+//MARK: - Navigation
+extension ProfileViewController {
+    
+    func navigateToSplashVC() {
+        DispatchQueue.main.async {
+            if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+               let sceneDelegate = windowScene.delegate as? SceneDelegate,
+               let window = sceneDelegate.window {
+                let splashViewController = SplashViewController()
+                window.rootViewController = splashViewController
+                window.makeKeyAndVisible()
             }
         }
-        updateAvatar()
     }
     
-    private func updateAvatar() {
+    func showLogoutAlert() {
+        let alert = UIAlertController(
+            title: "Logout",
+            message: "Are you sure you want to logout?",
+            preferredStyle: .alert
+        )
         
-        guard let profileImageURL = ProfileImageService.shared.avatarURL, 
+        alert.view.accessibilityIdentifier = "Bye bye!"
+        
+        let logoutAction = UIAlertAction(
+            title: "Yes",
+            style: .destructive
+        ) { [weak self] _ in
+            
+            self?.presenter?.logoutAlertYesButtonTapped()
+        }
+        
+        logoutAction.accessibilityIdentifier = "Yes"
+        
+        let cancelAction = UIAlertAction(
+            title: "No",
+            style: .cancel
+        )
+        
+        alert.addAction(logoutAction)
+        alert.addAction(cancelAction)
+        
+        present(alert, animated: true)
+    }
+}
+
+//MARK: - Update View {
+extension ProfileViewController {
+    func updateProfileDetails(with profile: Profile) {
+        profileNameLabel.text = profile.name
+        userNameLabel.text = profile.loginName
+        descriptionLabel.text = profile.bio
+    }
+    
+    func updateAvatar() {
+        
+        guard let profileImageURL = ProfileImageService.shared.avatarURL,
               let url = URL(string: profileImageURL) else { return }
         
         print("->", url)
@@ -183,12 +185,6 @@ final class ProfileViewController: UIViewController {
                     print(error)
                 }
             }
-    }
-    
-    private func updateProfileDetails(with profile: Profile) {
-        profileNameLabel.text = profile.name
-        userNameLabel.text = profile.loginName
-        descriptionLabel.text = profile.bio
     }
 }
 
